@@ -10,6 +10,7 @@ public class ManagerInspect : MonoBehaviour
     public GameObject prefabBerkas;
     public Button btnApprove;
     public Button btnReject;
+    public Animator AmplopAnim;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -50,6 +51,7 @@ public class ManagerInspect : MonoBehaviour
 
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
+        AmplopAnim.SetTrigger("taruh");
     }
 
     void GenerateBerkasDiMeja()
@@ -109,9 +111,9 @@ public class ManagerInspect : MonoBehaviour
 
     IEnumerator SiklusKlienKeluar()
     {
+        AmplopAnim.SetTrigger("kembalikan");
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
-
         // 1. Bersihkan berkas dari meja
         foreach (GameObject berkas in berkasDiMeja) {
             Destroy(berkas);
