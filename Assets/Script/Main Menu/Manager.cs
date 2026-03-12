@@ -5,7 +5,7 @@ public class Manager : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("MainGame 1");
     }
     public void Quit()
     {
