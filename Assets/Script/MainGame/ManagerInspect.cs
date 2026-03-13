@@ -11,6 +11,8 @@ public class ManagerInspect : MonoBehaviour
     public Button btnApprove;
     public Button btnReject;
     public GameObject Amplop;
+    [SerializeField] private Animator Amplop1anim;
+    public bool AmplopKebuka;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -118,7 +120,9 @@ public class ManagerInspect : MonoBehaviour
     IEnumerator SiklusKlienKeluar()
     {
         AmplopAnim.SetTrigger("kembalikan");
+        Amplop1anim.SetTrigger("TriggClose");
         AmplopCol.enabled = false;
+        AmplopKebuka = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
         // 1. Bersihkan berkas dari meja

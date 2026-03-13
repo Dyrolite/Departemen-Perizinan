@@ -1,12 +1,8 @@
 using Cinemachine;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class SwitchCam : MonoBehaviour
+public class SwitchCam1 : MonoBehaviour
 {
-    [Header("Ref")]
-    public ManagerInspect managerInspect;
-    public Animator anim;
 
     [Header("Pengaturan Cinemachine")]
     [Tooltip("Kamera asal yang sedang aktif")]
@@ -19,7 +15,6 @@ public class SwitchCam : MonoBehaviour
     public InputAction pointerPositionAction;
 
     private Camera mainCamera;
-
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -41,32 +36,47 @@ public class SwitchCam : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext context)
     {
+        Debug.Log("1. Input klik terdeteksi!"); // Mengecek apakah klik mouse terbaca
+
         Vector2 screenPosition = pointerPositionAction.ReadValue<Vector2>();
+        Debug.Log("2. Posisi layar: " + screenPosition); // Mengecek apakah posisi kursor terbaca
+
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
+
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-        if (hit.collider.gameObject == this.gameObject)
+
+        if (hit.collider != null)
         {
-            SwitchCameraPriority();
+            Debug.Log("3. Raycast mengenai objek: " + hit.collider.gameObject.name); // Mengecek apa yang tertabrak
+
+            if (hit.collider.gameObject == this.gameObject)
+            {
+                Debug.Log("4. Target cocok! Memindahkan kamera sekarang.");
+                SwitchCameraPriority();
+            }
+        }
+        else
+        {
+            Debug.Log("3. Raycast meleset, tidak mengenai Collider apapun.");
         }
     }
 
     private void SwitchCameraPriority()
     {
-        // Turunkan prioritas kamera awal
-        vcamAwal.Priority = 0;
-
-        // Naikkan prioritas kamera tujuan agar mengambil alih Main Camera
-        vcamTujuan.Priority = 10;
-
-        if (managerInspect.AmplopKebuka == false)
+        if (vcamAwal != null && vcamTujuan != null)
         {
-            StartCoroutine(WaitSwitch());
-            managerInspect.AmplopKebuka = true;
+            // Turunkan prioritas kamera awal
+            vcamAwal.Priority = 0;
+
+            // Naikkan prioritas kamera tujuan agar mengambil alih Main Camera
+            vcamTujuan.Priority = 10;
+
+            Debug.Log("Prioritas diubah! Cinemachine sedang memindahkan kamera.");
         }
-    }
-    IEnumerator WaitSwitch()
-    {
-        yield return new WaitForSeconds(0.5f);
-        anim.SetTrigger("TriggOpen");
+        else
+        {
+            Debug.LogWarning("Virtual Cameras belum dimasukkan ke Inspector!");
+        }
+        
     }
 }
