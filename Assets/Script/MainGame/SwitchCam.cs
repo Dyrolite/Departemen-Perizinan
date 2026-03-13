@@ -44,7 +44,7 @@ public class SwitchCam : MonoBehaviour
         Vector2 screenPosition = pointerPositionAction.ReadValue<Vector2>();
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
-        if (hit.collider.gameObject == this.gameObject)
+        if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
             SwitchCameraPriority();
         }
