@@ -68,5 +68,8 @@ public class SwitchCam : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         anim.SetTrigger("TriggOpen");
+
+        yield return new WaitForSeconds(0.5f);
+        managerInspect.PanggilBerkasDariAmplop();
     }
 }
