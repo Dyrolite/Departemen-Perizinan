@@ -10,7 +10,7 @@ public class ManagerInspect : MonoBehaviour
     public GameObject prefabBerkas;
     public Button btnApprove;
     public Button btnReject;
-    public Animator AmplopAnim;
+    public GameObject Amplop;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -20,6 +20,9 @@ public class ManagerInspect : MonoBehaviour
     [Header("Pengaturan")]
     public float kecepatanGerak = 5f;
 
+    private Animator AmplopAnim;
+    private Collider2D AmplopCol;
+
     // List untuk menampung dokumen yang ada di meja saat ini
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid; // Status apakah klien ini layak di-approve
@@ -28,7 +31,9 @@ public class ManagerInspect : MonoBehaviour
     void Start()
     {
         // Setup tombol
-
+        AmplopAnim = Amplop.GetComponent<Animator>();
+        AmplopCol = Amplop.GetComponent<Collider2D>();
+        AmplopCol.enabled = false;
         SetTombolAktif(false);
         StartCoroutine(SiklusKlienMasuk());
     }
@@ -52,6 +57,7 @@ public class ManagerInspect : MonoBehaviour
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
         AmplopAnim.SetTrigger("taruh");
+        AmplopCol.enabled = true;
     }
 
     void GenerateBerkasDiMeja()
@@ -112,6 +118,7 @@ public class ManagerInspect : MonoBehaviour
     IEnumerator SiklusKlienKeluar()
     {
         AmplopAnim.SetTrigger("kembalikan");
+        AmplopCol.enabled = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
         // 1. Bersihkan berkas dari meja
