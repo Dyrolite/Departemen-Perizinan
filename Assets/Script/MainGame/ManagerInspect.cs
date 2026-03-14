@@ -259,7 +259,12 @@ public class ManagerInspect : MonoBehaviour
 public void PilihApprove()
     {
         if (sedangProsesAnimasi) return;
-
+        if (!SemuaBerkasTersimpan())
+        {
+            Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
+            // TODO (Opsional): Panggil animasi UI getar atau suara error di sini
+            return; // Hentikan eksekusi kode di bawahnya
+        }
         if (isPenyuapan)
         {
             // KASUS 1: Terima Suap
@@ -283,7 +288,12 @@ public void PilihApprove()
     public void PilihReject()
     {
         if (sedangProsesAnimasi) return;
-
+        if (!SemuaBerkasTersimpan())
+        {
+            Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
+            // TODO (Opsional): Panggil animasi UI getar atau suara error di sini
+            return; // Hentikan eksekusi kode di bawahnya
+        }
         if (isPenyuapan)
         {
             // KASUS 4: Menolak Suap
@@ -345,10 +355,57 @@ public void PilihApprove()
         }
         objek.transform.position = end;
     }
-
     void SetTombolAktif(bool aktif)
     {
         btnApprove.interactable = aktif;
         btnReject.interactable = aktif;
+    }
+
+    // --- FUNGSI CEK YANG LEBIH CEREWET ---
+    public bool SemuaBerkasTersimpan()
+    {
+        if (berkasDiMeja.Count == 0) return false;
+
+        foreach (GameObject berkas in berkasDiMeja)
+        {
+            if (berkas != null)
+            {
+                DragFile scriptDrag = berkas.GetComponent<DragFile>();
+
+                // Jika script-nya ada, TAPI isStored masih false
+                if (scriptDrag != null && !scriptDrag.isStored)
+                {
+                    Debug.Log($"Manager: Berkas '{berkas.name}' ternyata BELUM masuk nih!");
+                    return false; // Langsung lapor gagal
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void CekAnimasiTutupAmplop()
+    {
+        Debug.Log("Manager: Oke, aku cek semua berkas di meja ya...");
+
+        if (SemuaBerkasTersimpan())
+        {
+            Debug.Log("Manager: Mantap, SEMUA BERKAS SUDAH MASUK!");
+
+            if (Amplop1anim != null)
+            {
+                Amplop1anim.SetTrigger("TriggClose");
+                AmplopKebuka = false;
+                Debug.Log("Manager: Animasi tutup (TriggClose) diputar!");
+            }
+            else
+            {
+                Debug.LogError("Manager: Eh tunggu, komponen Animator (Amplop1anim) belum kamu masukin di Inspector!");
+            }
+        }
+        else
+        {
+            Debug.Log("Manager: Animasi batal diputar karena masih ada berkas di luar.");
+        }
     }
 }
