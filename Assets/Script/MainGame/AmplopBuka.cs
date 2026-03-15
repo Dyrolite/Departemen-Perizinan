@@ -1,20 +1,18 @@
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class SwitchCam1 : MonoBehaviour
+
+public class AmplopBuka : MonoBehaviour
 {
-
-    [Header("Pengaturan Cinemachine")]
-    [Tooltip("Kamera asal yang sedang aktif")]
-    public CinemachineVirtualCamera vcamAwal; // Ganti tipe menjadi CinemachineVirtualCamera jika memakai Cinemachine 2.x
-    [Tooltip("Kamera tujuan")]
-    public CinemachineVirtualCamera vcamTujuan; // Ganti tipe menjadi CinemachineVirtualCamera jika memakai Cinemachine 2.x
-
-    [Header("Pengaturan Input System Baru")]
+    [Header("Referensi")]
+    public ManagerInspect managerInspect;
+    
+    [Header("Pengaturan Input")]
     public InputAction clickAction;
     public InputAction pointerPositionAction;
 
     private Camera mainCamera;
+    private bool sudahDiklik = false; // Mencegah player spam klik amplop
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -36,18 +34,28 @@ public class SwitchCam1 : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext context)
     {
+        if (sudahDiklik) return; // Kalau sudah diklik, hentikan proses
+
         Vector2 screenPosition = pointerPositionAction.ReadValue<Vector2>();
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
         RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
-            SwitchCameraPriority();
+            Debug.Log("Amplop kedua ditekan! Mengeluarkan berkas...");
+            sudahDiklik = true; // Kunci agar tidak keluar berkas dobel
+
+            // Panggil animasi berkas keluar dari Manager
+            managerInspect.PanggilBerkasDariAmplop();
+
+            // Opsional: Matikan collider atau ganti sprite amplop menjadi "amplop kosong" di sini
+            // GetComponent<Collider2D>().enabled = false; 
         }
     }
 
-    private void SwitchCameraPriority()
+    // Reset status klik jika klien baru datang (bisa dipanggil dari ManagerInspect saat siklus reset)
+    public void ResetAmplop()
     {
-        vcamAwal.Priority = 0;
-        vcamTujuan.Priority = 10;        
+        sudahDiklik = false;
     }
 }
