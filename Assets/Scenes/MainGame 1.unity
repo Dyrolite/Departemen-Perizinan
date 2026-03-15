@@ -1141,19 +1141,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
   databaseGambar:
   - tipeDokumen: 0
-    spriteBenar: {fileID: 0}
-    spriteSalah1: {fileID: 0}
-    spriteSalah2: {fileID: 0}
-  - tipeDokumen: 0
-    spriteBenar: {fileID: 0}
-    spriteSalah1: {fileID: 0}
-    spriteSalah2: {fileID: 0}
-  - tipeDokumen: 0
-    spriteBenar: {fileID: 0}
-    spriteSalah1: {fileID: 0}
-    spriteSalah2: {fileID: 0}
-  - tipeDokumen: 0
-    spriteBenar: {fileID: 0}
+    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
+    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+  - tipeDokumen: 1
+    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
+    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+  - tipeDokumen: 2
+    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
+    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+  - tipeDokumen: 3
+    spriteBenar: {fileID: -6110103020745395671, guid: 6a3baaee4d069d04c807e331d4cbef1a, type: 3}
     spriteSalah1: {fileID: 0}
     spriteSalah2: {fileID: 0}
   isPenyuapan: 0
