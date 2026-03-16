@@ -27,37 +27,59 @@
 
 
 using UnityEngine;
+using TMPro;
+
+// 
 
 public class Files : MonoBehaviour
 {
-    // Sesuaikan dengan daftar berkasmu
     public enum TipeDokumen { KTP, NPWP, SKU, AmplopUang }
     
-    // Status benar atau salah
-    public enum StatusDokumen { Benar, Salah1, Salah2 }
-
-    [Header("Informasi Berkas Saat Ini")]
+    [Header("Status Dokumen Saat Ini")]
     public TipeDokumen tipe;
-    public StatusDokumen status;
+    public string namaDiBerkas;
+    public string alamatDiBerkas;
 
-    private SpriteRenderer spriteRenderer;
+    [Header("Referensi Komponen (Isi di Prefab)")]
+    public SpriteRenderer spriteRenderer;
+    public TextMeshPro textNama; 
+    public TextMeshPro textAlamat; 
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Fungsi ini akan dipanggil oleh Manager untuk mengatur tipe, status, dan gambarnya
-    public void SetupBerkas(TipeDokumen tipeBerkas, StatusDokumen statusBerkas, Sprite gambarBerkas)
+    public void SetupBerkasDinamis(TipeDokumen tipeBerkas, Sprite gambarDipilih, string namaTeks, string alamatTeks)
     {
         tipe = tipeBerkas;
-        status = statusBerkas;
+        namaDiBerkas = namaTeks;
+        alamatDiBerkas = alamatTeks;
 
-        // Ganti gambar visualnya sesuai dengan gambar yang dikirim dari Manager
-        if (spriteRenderer != null && gambarBerkas != null)
+        // Pasang gambarnya (Template KTP/NPWP biasa, atau SKU dengan ttd asli/palsu)
+        if (spriteRenderer != null && gambarDipilih != null)
         {
-            spriteRenderer.sprite = gambarBerkas;
-            spriteRenderer.color = Color.white; // Pastikan warnanya normal
+            spriteRenderer.sprite = gambarDipilih;
+        }
+
+        // Reset tampilan teks
+        if (textNama != null) textNama.gameObject.SetActive(false);
+        if (textAlamat != null) textAlamat.gameObject.SetActive(false);
+
+        // Atur teks khusus dokumen resmi (Bukan Amplop)
+        if (tipe != TipeDokumen.AmplopUang)
+        {
+            if (textNama != null)
+            {
+                textNama.gameObject.SetActive(true);
+                textNama.text = namaDiBerkas;
+            }
+
+            if (textAlamat != null && (tipe == TipeDokumen.KTP || tipe == TipeDokumen.NPWP))
+            {
+                textAlamat.gameObject.SetActive(true);
+                textAlamat.text = alamatDiBerkas;
+            }
         }
     }
 }

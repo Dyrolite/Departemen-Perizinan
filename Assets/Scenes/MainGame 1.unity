@@ -433,7 +433,7 @@ GameObject:
   - component: {fileID: 243135718}
   m_Layer: 0
   m_Name: switchCam1
-  m_TagString: Target
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,7 +594,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -227815720537359269, guid: 9a39a950ae16d7b4ab9d75e4e92586b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -957,8 +957,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 629433080}
-        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
+      - m_Target: {fileID: 629433078}
+        m_TargetAssemblyTypeName: ManagerInspect, Assembly-CSharp
         m_MethodName: Continue
         m_Mode: 1
         m_Arguments:
@@ -1376,24 +1376,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7189e9942927b694bb698ab5defa9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
-  databaseGambar:
+  templateBerkas:
   - tipeDokumen: 0
-    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
-    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
-    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 1
-    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
-    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
-    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 2
-    spriteBenar: {fileID: -503471536571796204, guid: 16cd5af7fb9098e4dafd1638363eb449, type: 3}
-    spriteSalah1: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
-    spriteSalah2: {fileID: 8778679691404859185, guid: 60b1e2e3b1b0ea742af946b05887e60d, type: 3}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 3
-    spriteBenar: {fileID: -6110103020745395671, guid: 6a3baaee4d069d04c807e331d4cbef1a, type: 3}
-    spriteSalah1: {fileID: 0}
-    spriteSalah2: {fileID: 0}
-  isPenyuapan: 0
+    gambarBenar: {fileID: -6110103020745395671, guid: 6a3baaee4d069d04c807e331d4cbef1a, type: 3}
+    gambarSalah: {fileID: 0}
+  listOrangBenar:
+  - Dika
+  - Rjiv
+  listNamaSalah:
+  - Nfis
+  listAlamat:
+  - Pati
+  - Kudus
+  isPenyuapan: 1
   karakterKlien: {fileID: 64304440}
   prefabBerkas: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
   btnApprove: {fileID: 462554584}
@@ -1522,8 +1526,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 629433080}
-        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
+      - m_Target: {fileID: 629433078}
+        m_TargetAssemblyTypeName: ManagerInspect, Assembly-CSharp
         m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
@@ -1899,9 +1903,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: Quit
+      - m_Target: {fileID: 629433078}
+        m_TargetAssemblyTypeName: ManagerInspect, Assembly-CSharp
+        m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2182,7 +2186,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: -6252805913084083930, guid: 1ad7f9057b5e9314c85cd338ae51877a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
