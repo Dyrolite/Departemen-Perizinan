@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class ManagerInspect : MonoBehaviour
 {
@@ -31,6 +33,7 @@ public class ManagerInspect : MonoBehaviour
     [SerializeField] private Animator Amplop1anim;
     public bool AmplopKebuka;
     public AmplopBuka scriptAmplopBawah;
+    public GameObject PausePanel;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -50,15 +53,16 @@ public class ManagerInspect : MonoBehaviour
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid; // Status apakah klien ini layak di-approve
     private bool sedangProsesAnimasi = false;
+    bool isPaused = false;
 
-    
-    
+
     [Tooltip("Masukkan 4 titik kosong untuk posisi akhir masing-masing berkas")]
     public Transform[] titikAkhirBerkas; // Menggantikan public Transform titikMeja;
 
     void Start()
     {
         // Setup tombol
+        PausePanel.SetActive(false);
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
         AmplopCol.enabled = false;
@@ -407,5 +411,24 @@ public void PilihApprove()
         {
             Debug.Log("Manager: Animasi batal diputar karena masih ada berkas di luar.");
         }
+    }
+    public void Pause()
+    {
+        PausePanel.SetActive(true);
+        Time.timeScale = 0f; // Menghentikan waktu
+
+        isPaused = true;
+        Debug.Log("Game Paused");
+    }
+    public void Continue()
+    {
+        PausePanel.SetActive(false);
+        Time.timeScale = 1f;
+        isPaused = false;
+        Debug.Log("Game UnPaused");
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
