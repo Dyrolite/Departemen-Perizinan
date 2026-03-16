@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class DragFile : MonoBehaviour
 {
-    [Header("ref")]
-    public ManagerInspect manager;
+    //[Header("ref")]
+    //public ManagerInspect manager;
 
     [Header("Pengaturan Input System Baru")]
     public InputAction clickAction;
