@@ -40,6 +40,8 @@ public class ManagerInspect : MonoBehaviour
     public GameObject Amplop;
     [SerializeField] private Animator Amplop1anim;
     public bool AmplopKebuka;
+    public bool IsKamreaAtas = true;
+    public bool IsGennerateBaru = false;
     public AmplopBuka scriptAmplopBawah;
     public GameObject PausePanel;
 
@@ -77,6 +79,7 @@ public class ManagerInspect : MonoBehaviour
 
     IEnumerator SiklusKlienMasuk()
     {
+        IsGennerateBaru = true;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
 
@@ -205,6 +208,7 @@ public class ManagerInspect : MonoBehaviour
     public void PilihApprove()
     {
         if (sedangProsesAnimasi) return;
+        if (!IsKamreaAtas) return;
         if (!SemuaBerkasTersimpan())
         {
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
@@ -229,6 +233,7 @@ public class ManagerInspect : MonoBehaviour
     public void PilihReject()
     {
         if (sedangProsesAnimasi) return;
+        if (!IsKamreaAtas) return;
         if (!SemuaBerkasTersimpan())
         {
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");

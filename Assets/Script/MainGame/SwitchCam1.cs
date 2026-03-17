@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class SwitchCam1 : MonoBehaviour
 {
+    [Header("ref")]
+    public ManagerInspect manager;
 
     [Header("Pengaturan Cinemachine")]
     [Tooltip("Kamera asal yang sedang aktif")]
@@ -42,7 +44,9 @@ public class SwitchCam1 : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
             SwitchCameraPriority();
+            manager.IsKamreaAtas = true;
         }
+        
     }
 
     private void SwitchCameraPriority()

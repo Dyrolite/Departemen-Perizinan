@@ -465,7 +465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0270d8cf2110d2a4ca634c2c270defb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchCam1
-  manager: {fileID: 629433078}
   vcamAwal: {fileID: 1300246837}
   vcamTujuan: {fileID: 713618584}
   clickAction:
@@ -1406,8 +1405,6 @@ MonoBehaviour:
   Amplop: {fileID: 4019775794316760911}
   Amplop1anim: {fileID: 2017264060}
   AmplopKebuka: 0
-  IsKamreaAtas: 1
-  IsGennerateBaru: 1
   scriptAmplopBawah: {fileID: 0}
   PausePanel: {fileID: 132947905}
   titikSpawnKlien: {fileID: 375573864}
@@ -1561,8 +1558,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2167799182919178007, guid: e8150e1ac78fa454ab367ba51a8169e9, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1938,7 +1935,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 243534951882983770, guid: dc7795d39401ee44096e13cccda3ae8f, type: 3}
+  m_Sprite: {fileID: 649014499940338009, guid: ce26c77dc9e02b04c9bf413c434ad8c0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
