@@ -29,6 +29,21 @@ public class ManagerInspect : MonoBehaviour
     public string[] listNamaSalah = { "Ali", "Budi", "Citra", "Dewi" };
     public string[] listAlamat = { "Jl. Merdeka No. 1", "Jl. Sudirman No. 2", "Jl. Diponegoro No. 3", "Jl. Gatot Subroto No. 4" };
 
+
+    [Header("Database Data Pelengkap (Hanya Hiasan)")]
+    public List<string> listTTL;
+    public List<string> listJenisKelamin;
+    public List<string> listAgama;
+    public List<string> listStatus;
+    public List<string> listPekerjaan;
+
+    // Variabel untuk menyimpan data klien SAAT INI agar konsisten di semua file
+    private string currentTTL;
+    private string currentJenisKelamin;
+    private string currentAgama;
+    private string currentStatus;
+    private string currentPekerjaan;
+
     public bool isPenyuapan = false;
     
     [Header("Referensi Objek")]
@@ -112,6 +127,17 @@ public class ManagerInspect : MonoBehaviour
 
         string namaAsliKlien = listOrangBenar[Random.Range(0, listOrangBenar.Length)];
         string alamatAsliKlien = listAlamat[Random.Range(0, listAlamat.Length)];
+
+
+                // ---> PASTE DI SINI BANG! <---
+        if (listTTL.Count > 0) currentTTL = listTTL[Random.Range(0, listTTL.Count)];
+        if (listJenisKelamin.Count > 0) currentJenisKelamin = listJenisKelamin[Random.Range(0, listJenisKelamin.Count)];
+        if (listAgama.Count > 0) currentAgama = listAgama[Random.Range(0, listAgama.Count)];
+        if (listStatus.Count > 0) currentStatus = listStatus[Random.Range(0, listStatus.Count)];
+        if (listPekerjaan.Count > 0) currentPekerjaan = listPekerjaan[Random.Range(0, listPekerjaan.Count)];
+// ------------------------------
+
+
         bool dataSudahDibuatSalah = false;
 
         Files.TipeDokumen[] dokumenWajib = { Files.TipeDokumen.KTP, Files.TipeDokumen.NPWP, Files.TipeDokumen.SKU };
@@ -195,7 +221,7 @@ public class ManagerInspect : MonoBehaviour
                 objekUangSuap = berkasBaru;
             }
             // Setup Data (Sekarang kita tidak perlu kirim template "Benar" karena Sprite aslinya sudah nempel di Prefab)
-            data.SetupBerkasDinamis(tipeYangDibuat, spriteSalahPilihan, namaDiKertas, alamatDiKertas);
+            data.SetupBerkasDinamis(tipeYangDibuat, spriteSalahPilihan, namaDiKertas, alamatDiKertas, currentTTL, currentJenisKelamin, currentAgama, currentStatus, currentPekerjaan);
 
             berkasDiMeja.Add(berkasBaru);
 

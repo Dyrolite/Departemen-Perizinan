@@ -102,7 +102,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -168,7 +168,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20.85, y: -6, z: 0}
-  m_LocalScale: {x: 2.1528, y: 2.0925, z: 0}
+  m_LocalScale: {x: 1.7, y: 1.652383, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4862815811501643233}
@@ -248,9 +248,16 @@ MonoBehaviour:
   tipe: 1
   namaDiBerkas: 
   alamatDiBerkas: 
+  textTTL: {fileID: 0}
+  textJenisKelamin: {fileID: 0}
+  textAgama: {fileID: 0}
+  textStatus: {fileID: 0}
+  textPekerjaan: {fileID: 0}
   spriteRenderer: {fileID: 0}
   textNama: {fileID: 3275939484736686097}
   textAlamat: {fileID: 8483329325569700399}
+  textKotaAtas: {fileID: 0}
+  textKotaBawahFoto: {fileID: 0}
 --- !u!114 &4278776093989844639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.79, y: -12.83}
+  m_AnchoredPosition: {x: -13.3, y: -12.83}
   m_SizeDelta: {x: 122.026, y: 17.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5410874216575508857
@@ -477,7 +484,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
