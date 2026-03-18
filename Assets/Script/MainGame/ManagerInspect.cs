@@ -13,28 +13,26 @@ public class ManagerInspect : MonoBehaviour
     public class DataTemplateBerkas
     {
         public Files.TipeDokumen tipeDokumen;
-        [Tooltip("Gambar asli (Template kosongan / SKU ttd Walikota Asli)")]
-        public Sprite gambarBenar; 
-        [Tooltip("Gambar palsu (KHUSUS SKU ttd Walikota Palsu. KTP/NPWP biarkan kosong)")]
-        public Sprite gambarSalah; 
+
+        [Tooltip("Masukkan Prefab khusus untuk dokumen ini (KTP/NPWP/SKU/Amplop)")]
+        public GameObject prefabDokumen;
+
+        [Tooltip("Opsional: Jika butuh gambar alternatif saat salah (Misal stempel/TTD palsu SKU)")]
+        public Sprite gambarSalahAlternatif;
     }
 
     [Header("Database Gambar Berkas")]
-    public DataTemplateBerkas[] templateBerkas; 
+    public DataTemplateBerkas[] templateBerkas;
 
     [Header("Database Data Teks")]
     public string[] listOrangBenar = { "Dika", "Nafis", "Rajiv", "Dafa" };
     public string[] listNamaSalah = { "Ali", "Budi", "Citra", "Dewi" };
     public string[] listAlamat = { "Jl. Merdeka No. 1", "Jl. Sudirman No. 2", "Jl. Diponegoro No. 3", "Jl. Gatot Subroto No. 4" };
 
-    // ==========================================
-    // 2. REFERENSI OBJEK & VARIABEL BAWAANMU
-    // ==========================================
     public bool isPenyuapan = false;
     
     [Header("Referensi Objek")]
     public GameObject karakterKlien;
-    public GameObject prefabBerkas;
     public Button btnApprove;
     public Button btnReject;
     public GameObject Amplop;
@@ -58,6 +56,7 @@ public class ManagerInspect : MonoBehaviour
 
     private Animator AmplopAnim;
     private Collider2D AmplopCol;
+    private GameObject objekUangSuap = null;
 
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid; 
@@ -116,31 +115,26 @@ public class ManagerInspect : MonoBehaviour
         bool dataSudahDibuatSalah = false;
 
         Files.TipeDokumen[] dokumenWajib = { Files.TipeDokumen.KTP, Files.TipeDokumen.NPWP, Files.TipeDokumen.SKU };
-
+        objekUangSuap = null;
         for (int i = 0; i < totalBerkasDimunculkan; i++)
         {
-            GameObject berkasBaru = Instantiate(prefabBerkas, titikAmplopKedua.position, Quaternion.identity);
-            Files data = berkasBaru.GetComponent<Files>();
-
             Files.TipeDokumen tipeYangDibuat;
-            string namaDiKertas = namaAsliKlien; 
-            string alamatDiKertas = alamatAsliKlien; 
-            Sprite templatePilihan = null;
+            string namaDiKertas = namaAsliKlien;
+            string alamatDiKertas = alamatAsliKlien;
 
-            if (i < jumlahBerkasWajib) 
+            // Variabel untuk menampung Prefab yang akan di-spawn
+            GameObject prefabPilihan = null;
+            Sprite spriteSalahPilihan = null; // Opsional untuk TTD palsu
+
+            if (i < jumlahBerkasWajib)
             {
                 tipeYangDibuat = dokumenWajib[i];
                 bool jadikanBerkasIniSalah = false;
 
-                if (tipeSkenario != 0 && jumlahBerkasWajib == 3) 
+                if (tipeSkenario != 0 && jumlahBerkasWajib == 3)
                 {
                     if (i > 0 && !dataSudahDibuatSalah && Random.value > 0.4f) jadikanBerkasIniSalah = true;
-                    if (i == 2 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true; 
-                }
-
-                // Cari template BENAR dulu sebagai default
-                foreach (var db in templateBerkas) {
-                    if (db.tipeDokumen == tipeYangDibuat) { templatePilihan = db.gambarBenar; break; }
+                    if (i == 2 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true;
                 }
 
                 if (jadikanBerkasIniSalah)
@@ -148,38 +142,64 @@ public class ManagerInspect : MonoBehaviour
                     dataSudahDibuatSalah = true;
                     if (tipeYangDibuat == Files.TipeDokumen.SKU)
                     {
-                        // KHUSUS SKU: Acak antara Nama yang salah ATAU Tanda Tangan yang salah
-                        if (Random.value > 0.5f) {
+                        if (Random.value > 0.5f)
+                        {
                             namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
-                        } else {
-                            foreach (var db in templateBerkas) {
-                                if (db.tipeDokumen == tipeYangDibuat) { templatePilihan = db.gambarSalah; break; }
-                            }
+                        }
+                        else
+                        {
+                            // Tandai bahwa dokumen ini butuh gambar TTD palsu
+                            spriteSalahPilihan = templateBerkas[i].gambarSalahAlternatif;
                         }
                     }
                     else
                     {
-                        // KHUSUS KTP & NPWP: Acak antara Nama salah ATAU Alamat salah
                         if (Random.value > 0.5f) namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
                         else alamatDiKertas = listAlamat[Random.Range(0, listAlamat.Length)];
                     }
                 }
             }
-            else 
+            else
             {
                 // Bagian Amplop Uang Suap
                 tipeYangDibuat = Files.TipeDokumen.AmplopUang;
                 namaDiKertas = ""; alamatDiKertas = "";
-                foreach (var db in templateBerkas) {
-                    if (db.tipeDokumen == tipeYangDibuat) { templatePilihan = db.gambarBenar; break; }
+            }
+
+            // --- PERUBAHAN UTAMA: CARI PREFAB DARI DATABASE ---
+            foreach (var db in templateBerkas)
+            {
+                if (db.tipeDokumen == tipeYangDibuat)
+                {
+                    prefabPilihan = db.prefabDokumen;
+
+                    // Jika butuh gambar salah alternatif, ambil dari database
+                    if (spriteSalahPilihan != null) spriteSalahPilihan = db.gambarSalahAlternatif;
+
+                    break;
                 }
             }
 
-            // Memanggil fungsi baru dari script Files
-            data.SetupBerkasDinamis(tipeYangDibuat, templatePilihan, namaDiKertas, alamatDiKertas);
+            // Keamanan: Jika prefab belum diisi di Inspector, lewati agar tidak error
+            if (prefabPilihan == null)
+            {
+                Debug.LogError($"Prefab untuk {tipeYangDibuat} belum diisi di Inspector!");
+                continue;
+            }
+
+            // --- INSTANTIATE PREFAB YANG SPESIFIK ---
+            GameObject berkasBaru = Instantiate(prefabPilihan, titikAmplopKedua.position, Quaternion.identity);
+            Files data = berkasBaru.GetComponent<Files>();
+            if (tipeYangDibuat == Files.TipeDokumen.AmplopUang)
+            {
+                objekUangSuap = berkasBaru;
+            }
+            // Setup Data (Sekarang kita tidak perlu kirim template "Benar" karena Sprite aslinya sudah nempel di Prefab)
+            data.SetupBerkasDinamis(tipeYangDibuat, spriteSalahPilihan, namaDiKertas, alamatDiKertas);
+
             berkasDiMeja.Add(berkasBaru);
 
-            Vector3 posisiAkhir = titikAmplopKedua.position; 
+            Vector3 posisiAkhir = titikAmplopKedua.position;
             if (i < titikAkhirBerkas.Length && titikAkhirBerkas[i] != null) posisiAkhir = titikAkhirBerkas[i].position;
 
             StartCoroutine(GerakMulus(berkasBaru.transform, titikAmplopKedua.position, posisiAkhir));
@@ -189,9 +209,6 @@ public class ManagerInspect : MonoBehaviour
         SetTombolAktif(true);
     }
 
-    // ==========================================
-    // 4. KUMPULAN FUNGSI ASLI MILIKMU DI BAWAH INI
-    // ==========================================
     IEnumerator GerakMulus(Transform objek, Vector3 mulai, Vector3 target)
     {
         float durasiAnimasi = 0.4f; 
@@ -214,9 +231,18 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
             return; 
         }
-        if (isPenyuapan)
+        if (isPenyuapan && objekUangSuap != null)
         {
-            Debug.Log("KONSEKUENSI: Kamu Menerima Suap! (Berkas salah tapi di-Approve karena ada uang)");
+            DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
+
+            // Jika kamu klik Approve TAPI uangnya sudah kamu masukkan ke amplop (dikembalikan)
+            if (scriptUang.isStored)
+            {
+                Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
+                return; // Gagalkan klik tombol
+            }
+
+            Debug.Log("KONSEKUENSI: Kamu Menerima Suap! (Uang diambil, Klien di-Approve)");
         }
         else if (klienValid)
         {
@@ -239,9 +265,18 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
             return; 
         }
-        if (isPenyuapan)
+        if (isPenyuapan && objekUangSuap != null)
         {
-            Debug.Log("TEPAT: Kamu menolak suap dari klien berdokumen palsu. Integritas terjaga!");
+            DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
+
+            // Jika kamu klik Reject TAPI uangnya masih ada di meja (kamu tahan)
+            if (!scriptUang.isStored)
+            {
+                Debug.Log("TINDAKAN ILEGAL: Kamu masih menahan uangnya di meja! Jika ingin terima suap, pilih APPROVE.");
+                return; // Gagalkan klik tombol
+            }
+
+            Debug.Log("TEPAT: Kamu menolak suap dari klien berdokumen palsu. Uang dikembalikan!");
         }
         else if (!klienValid)
         {
@@ -254,7 +289,6 @@ public class ManagerInspect : MonoBehaviour
 
         StartCoroutine(SiklusKlienKeluar());
     }
-
     IEnumerator SiklusKlienKeluar()
     {
         AmplopAnim.SetTrigger("kembalikan");
@@ -307,18 +341,21 @@ public class ManagerInspect : MonoBehaviour
         {
             if (berkas != null)
             {
+                // --- KUNCI MEKANIKNYA DI SINI ---
+                // Jika berkas yang sedang dicek ini adalah UANG SUAP, abaikan saja!
+                if (berkas == objekUangSuap) continue;
+
                 DragFile scriptDrag = berkas.GetComponent<DragFile>();
 
                 if (scriptDrag != null && !scriptDrag.isStored)
                 {
-                    Debug.Log($"Manager: Berkas '{berkas.name}' ternyata BELUM masuk nih!");
-                    return false; 
+                    Debug.Log($"Manager: Dokumen wajib '{berkas.name}' BELUM masuk!");
+                    return false;
                 }
             }
         }
         return true;
     }
-
     public void CekAnimasiTutupAmplop()
     {
         Debug.Log("Manager: Oke, aku cek semua berkas di meja ya...");
@@ -343,7 +380,6 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("Manager: Animasi batal diputar karena masih ada berkas di luar.");
         }
     }
-
     public void Pause()
     {
         PausePanel.SetActive(true);
@@ -352,7 +388,6 @@ public class ManagerInspect : MonoBehaviour
         isPaused = true;
         Debug.Log("Game Paused");
     }
-
     public void Continue()
     {
         PausePanel.SetActive(false);
@@ -360,7 +395,6 @@ public class ManagerInspect : MonoBehaviour
         isPaused = false;
         Debug.Log("Game UnPaused");
     }
-
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");

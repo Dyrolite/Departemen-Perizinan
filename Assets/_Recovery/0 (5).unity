@@ -1379,37 +1379,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
   templateBerkas:
   - tipeDokumen: 0
-    prefabDokumen: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
-    gambarSalahAlternatif: {fileID: 0}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 1
-    prefabDokumen: {fileID: 4953660371585531877, guid: de87f91c5de16774a9599a34e3be8b24, type: 3}
-    gambarSalahAlternatif: {fileID: 0}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 2
-    prefabDokumen: {fileID: 2236156532661536832, guid: 96fa0a16dfa42d143a4f90ed5490d43a, type: 3}
-    gambarSalahAlternatif: {fileID: 0}
+    gambarBenar: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
+    gambarSalah: {fileID: 4650459530972154250, guid: db3246023e25f584a9e342c9e056e8e7, type: 3}
   - tipeDokumen: 3
-    prefabDokumen: {fileID: 1940944232930658071, guid: eb93ab5220d835943815ec7bddb472f4, type: 3}
-    gambarSalahAlternatif: {fileID: 0}
+    gambarBenar: {fileID: -6110103020745395671, guid: 6a3baaee4d069d04c807e331d4cbef1a, type: 3}
+    gambarSalah: {fileID: 0}
   listOrangBenar:
   - Dika
   - Rjiv
-  - sugiono
-  - Lena
-  - Rusdi
   listNamaSalah:
   - Nfis
-  - lutfi
-  - Ambatukam
-  - siimut
-  - fuad
   listAlamat:
   - Pati
   - Kudus
-  - Semarang
-  - Purbalingga
-  - Manokwari
   isPenyuapan: 1
   karakterKlien: {fileID: 64304440}
+  prefabBerkas: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
   btnApprove: {fileID: 462554584}
   btnReject: {fileID: 284661397}
   Amplop: {fileID: 4019775794316760911}
