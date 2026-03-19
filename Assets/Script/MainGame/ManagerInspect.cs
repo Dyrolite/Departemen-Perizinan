@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
+using Unity.VisualScripting;
 
 public class ManagerInspect : MonoBehaviour
 {
@@ -57,6 +59,12 @@ public class ManagerInspect : MonoBehaviour
     public bool IsGennerateBaru = false;
     public AmplopBuka scriptAmplopBawah;
     public GameObject PausePanel;
+    public GameObject SummaryPanel;
+    public TextMeshProUGUI App;
+    public TextMeshProUGUI rejc;
+    public TextMeshProUGUI skor;
+    public TextMeshProUGUI sisautang;
+    public GameObject PetunjukPanel;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -65,6 +73,8 @@ public class ManagerInspect : MonoBehaviour
 
     [Header("Pengaturan")]
     public float kecepatanGerak = 5f;
+    public int KlienPerLevel;
+    public bool isLevel1;
 
     [Header("Titik Spawn Baru")]
     public Transform titikAmplopKedua;
@@ -76,6 +86,10 @@ public class ManagerInspect : MonoBehaviour
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid; 
     private bool sedangProsesAnimasi = false;
+    int totalKlien;
+    int approveTot;
+    int RejectTot;
+    public int SkorTot;
     bool isPaused = false;
 
     [Tooltip("Masukkan 4 titik kosong untuk posisi akhir masing-masing berkas")]
@@ -83,7 +97,13 @@ public class ManagerInspect : MonoBehaviour
 
     void Start()
     {
+        totalKlien = 0;
+        approveTot = 0;
+        RejectTot = 0;
+        SkorTot = 0;
         PausePanel.SetActive(false);
+        SummaryPanel.SetActive(false);
+        PetunjukPanel.SetActive(false);
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
         AmplopCol.enabled = false;
@@ -93,10 +113,15 @@ public class ManagerInspect : MonoBehaviour
 
     IEnumerator SiklusKlienMasuk()
     {
+        totalKlien++;
         IsGennerateBaru = true;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
-
+        if (isLevel1)
+        {
+            Time.timeScale = 0f;
+            PetunjukPanel.SetActive(true);
+        }
         karakterKlien.transform.position = titikSpawnKlien.position;
         yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
 
@@ -267,18 +292,20 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
                 return; // Gagalkan klik tombol
             }
-
+            SkorTot--;
             Debug.Log("KONSEKUENSI: Kamu Menerima Suap! (Uang diambil, Klien di-Approve)");
         }
         else if (klienValid)
         {
+            SkorTot++;
             Debug.Log("TEPAT: Berkas lengkap dan asli di-Approve.");
         }
         else
         {
+            SkorTot--;
             Debug.Log("PELANGGARAN: Ada berkas salah/palsu tapi kamu Approve (Tanpa ada suap)!");
         }
-        
+        approveTot++;
         StartCoroutine(SiklusKlienKeluar());
     }
 
@@ -302,17 +329,20 @@ public class ManagerInspect : MonoBehaviour
                 return; // Gagalkan klik tombol
             }
 
+            SkorTot++;
             Debug.Log("TEPAT: Kamu menolak suap dari klien berdokumen palsu. Uang dikembalikan!");
         }
         else if (!klienValid)
         {
+            SkorTot++;
             Debug.Log("TEPAT: Dokumen palsu berhasil di-Reject.");
         }
         else
         {
+            SkorTot--;
             Debug.Log("PELANGGARAN: Dokumen lengkap dan asli malah kamu Reject!");
         }
-
+        RejectTot++;
         StartCoroutine(SiklusKlienKeluar());
     }
     IEnumerator SiklusKlienKeluar()
@@ -337,6 +367,11 @@ public class ManagerInspect : MonoBehaviour
         yield return StartCoroutine(GerakLerp(karakterKlien, titikTengahKlien.position, titikSpawnKlien.position));
 
         yield return new WaitForSeconds(1f);
+        if (totalKlien >= KlienPerLevel)
+        {
+            Time.timeScale = 0f;
+            Summary();
+        }
         StartCoroutine(SiklusKlienMasuk());
     }
 
@@ -406,6 +441,13 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("Manager: Animasi batal diputar karena masih ada berkas di luar.");
         }
     }
+    private void Summary()
+    {
+        App.text = "APPROVE: " + approveTot;
+        rejc.text = "REJECT: " + RejectTot;
+        skor.text = "SKOR: " + SkorTot + "/" + totalKlien;
+        SummaryPanel.SetActive(true);
+    }
     public void Pause()
     {
         PausePanel.SetActive(true);
@@ -424,5 +466,12 @@ public class ManagerInspect : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+    }
+    public void ContinuePtnjk()
+    {
+        isLevel1 = false;
+        PetunjukPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 }
