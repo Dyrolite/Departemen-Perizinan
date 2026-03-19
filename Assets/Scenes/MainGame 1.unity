@@ -1563,31 +1563,38 @@ MonoBehaviour:
     prefabDokumen: {fileID: 1940944232930658071, guid: eb93ab5220d835943815ec7bddb472f4, type: 3}
     gambarSalahAlternatif: {fileID: 0}
   listOrangBenar:
-  - Dika
-  - Rjiv
-  - sugiono
+  - Dika el Galon
+  - Bambang
+  - Fuad
   - Lena
   - Rusdi
+  - Mas Gatot
+  - Rehan wangsaf
+  - Hideo Kojima
+  - Nafis
+  - Rusdi barber
   listNamaSalah:
-  - Nfis
-  - lutfi
-  - Ambatukam
-  - siimut
+  - Nafis serman
+  - lutfi ganci
+  - Niam baturi
+  - Yadi imutafi
+  - fuad kebab
+  - Farhan Shawarma
+  - 'Migu '
+  - Teto Kuncir
   - fuad
-  listAlamat:
-  - Pati
-  - Kudus
-  - Semarang
-  - Purbalingga
-  - Manokwari
-  listTTL:
-  - Pati, 23 desember 1969
-  - Kudus, 23 Januari 1980
+  - Renata Nyahui
+  - Ohim
   listJenisKelamin:
   - XX/XY
   listAgama:
-  - ANIME
-  - KPOP
+  - ADA
+  - ISLAM
+  - KRISTENN
+  - HINDU
+  - KATOLIK
+  - KONGHUCU
+  - BUDDHA
   listStatus:
   - KAWIN
   - BELUM KAWIN

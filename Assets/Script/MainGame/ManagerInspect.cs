@@ -29,11 +29,44 @@ public class ManagerInspect : MonoBehaviour
     [Header("Database Data Teks")]
     public string[] listOrangBenar = { "Dika", "Nafis", "Rajiv", "Dafa" };
     public string[] listNamaSalah = { "Ali", "Budi", "Citra", "Dewi" };
-    public string[] listAlamat = { "Jl. Merdeka No. 1", "Jl. Sudirman No. 2", "Jl. Diponegoro No. 3", "Jl. Gatot Subroto No. 4" };
+    string[] listAlamat = 
+    {
+    "Banjarnegara", "Banyumas", "Batang", "Blora", "Boyolali", 
+    "Brebes", "Cilacap", "Demak", "Grobogan", "Jepara", 
+    "Karanganyar", "Kebumen", "Kendal", "Klaten", "Kudus", 
+    "Magelang", "Pati", "Pekalongan", "Pemalang", "Purbalingga", 
+    "Purworejo", "Rembang", "Salatiga", "Semarang", "Sragen", 
+    "Sukoharjo", "Surakarta", "Tegal", "Temanggung", "Wonogiri", 
+    "Wonosobo"
+    };
 
 
     [Header("Database Data Pelengkap (Hanya Hiasan)")]
-    public List<string> listTTL;
+    List<string> listTTL = new List<string> 
+    {
+        
+        "Nganjuk, 14 Februari 1998",
+        "Garut, 31 Desember 2001",
+        "Bojonegoro, 09 September 1999",
+        "Medan, 29 Februari 2000",
+        "Makassar, 12 Desember 2012",
+        "Bantul, 01 Januari 2005",
+        "Palembang, 28 Oktober 1997",
+        "Bandung, 17 Agustus 1995",
+        "Surabaya, 10 November 1998",
+        "Malang, 04 April 2004",
+        "Pontianak, 08 Agustus 2008",
+        "Banjarmasin, 06 Juni 2006",
+        "Denpasar, 25 Desember 2005",
+        "Jayapura, 20 Mei 1998",
+        "Ambon, 11 November 2011",
+        "Manado, 02 Februari 2002",
+        "Kupang, 13 Juli 2001",
+        "Padang, 07 Juli 2007",
+        "Cirebon, 03 Maret 2003",
+        "Madiun, 21 April 2001"
+
+    };
     public List<string> listJenisKelamin;
     public List<string> listAgama;
     public List<string> listStatus;
