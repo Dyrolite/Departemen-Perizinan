@@ -23,6 +23,16 @@ public class ManagerInspect : MonoBehaviour
         public Sprite gambarSalahAlternatif;
     }
 
+    public enum PilihLevel
+    {
+        level_1,
+        level_2,
+        level_3
+    }
+    [Header("Identitas Scene Ini")]
+    [Tooltip("Pilih level untuk scene ini agar kesulitan menyesuaikan otomatis")]
+    public PilihLevel level;
+
     [Header("Database Gambar Berkas")]
     public DataTemplateBerkas[] templateBerkas;
 
@@ -107,7 +117,7 @@ public class ManagerInspect : MonoBehaviour
     [Header("Pengaturan")]
     public float kecepatanGerak = 5f;
     public int KlienPerLevel;
-    public bool isLevel1;
+    //public bool isLevel1;
 
     [Header("Titik Spawn Baru")]
     public Transform titikAmplopKedua;
@@ -142,6 +152,11 @@ public class ManagerInspect : MonoBehaviour
         AmplopCol.enabled = false;
         SetTombolAktif(false);
         StartCoroutine(SiklusKlienMasuk());
+        if (level == PilihLevel.level_1)
+        {
+            Time.timeScale = 0f;
+            PetunjukPanel.SetActive(true);
+        }
     }
 
     IEnumerator SiklusKlienMasuk()
@@ -150,11 +165,7 @@ public class ManagerInspect : MonoBehaviour
         IsGennerateBaru = true;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
-        if (isLevel1)
-        {
-            Time.timeScale = 0f;
-            PetunjukPanel.SetActive(true);
-        }
+        
         karakterKlien.transform.position = titikSpawnKlien.position;
         yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
 
@@ -169,9 +180,6 @@ public class ManagerInspect : MonoBehaviour
         StartCoroutine(KeluarkanBerkasAnimasi());
     }
 
-    // ==========================================
-    // 3. FUNGSI KELUARKAN BERKAS (SUDAH DI-UPGRADE)
-    // ==========================================
     IEnumerator KeluarkanBerkasAnimasi()
     {
         int tipeSkenario = Random.Range(0, 3); // 0=Benar, 1=Salah, 2=Suap
@@ -325,7 +333,7 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
                 return; // Gagalkan klik tombol
             }
-            SkorTot--;
+            SkorTot++;
             Debug.Log("KONSEKUENSI: Kamu Menerima Suap! (Uang diambil, Klien di-Approve)");
         }
         else if (klienValid)
@@ -503,7 +511,6 @@ public class ManagerInspect : MonoBehaviour
     }
     public void ContinuePtnjk()
     {
-        isLevel1 = false;
         PetunjukPanel.SetActive(false);
         Time.timeScale = 1f;
     }
