@@ -79,12 +79,18 @@ public class ManagerInspect : MonoBehaviour
     public AmplopBuka scriptAmplopBawah;
     public GameObject PausePanel;
     public GameObject SummaryPanel;
+    public GameObject sumContinue;
+    public GameObject sumMainMenu;
     public TextMeshProUGUI App;
     public TextMeshProUGUI rejc;
     public TextMeshProUGUI skor;
     public TextMeshProUGUI sisautang;
     public GameObject PetunjukPanel;
     public TextMeshProUGUI Hutang;
+    public GameObject EndingPanel;
+    public TextMeshProUGUI GoodBadSec;
+    public TextMeshProUGUI keterangan1;
+    public TextMeshProUGUI keterangan2;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien;
@@ -125,6 +131,7 @@ public class ManagerInspect : MonoBehaviour
         PausePanel.SetActive(false);
         SummaryPanel.SetActive(false);
         PetunjukPanel.SetActive(false);
+        EndingPanel.SetActive(false);
 
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
@@ -360,9 +367,12 @@ public class ManagerInspect : MonoBehaviour
             DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
             if (scriptUang.isStored)
             {
-                
                 Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
                 return;
+            }
+            if (Data.korup == false)
+            {
+                Data.korup = true;
             }
             SkorTot++;
             Data.hutang += 500000;
@@ -402,18 +412,22 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Kamu masih menahan uangnya di meja! Jika ingin terima suap, pilih APPROVE.");
                 return;
             }
+            if (Data.korup == false)
+            {
+                Data.korup = true;
+            }
             Data.hutang += 250000;
             UpdateHutang();
             SkorTot++;
             Debug.Log("TEPAT: Kamu menolak suap dari klien berdokumen palsu. Uang dikembalikan!");
         }
         else if (!klienValid)
-        {   
+        {
             Data.hutang += 250000;
             UpdateHutang();
             SkorTot++;
             Debug.Log("TEPAT: Dokumen palsu berhasil di-Reject.");
-            
+
         }
         else
         {
@@ -520,7 +534,65 @@ public class ManagerInspect : MonoBehaviour
         rejc.text = "REJECT: " + RejectTot;
         skor.text = "SKOR: " + SkorTot + "/" + totalKlien;
         sisautang.text = "SISA HUTANG: " + Data.hutang;
-        SummaryPanel.SetActive(true);
+        if (level == PilihLevel.level_3)
+        {
+            SummaryPanel.SetActive(true);
+            sumContinue.SetActive(false);
+            sumMainMenu.SetActive(false);
+
+            StartCoroutine(EndingPop());
+        }
+        else
+        {
+            SummaryPanel.SetActive(true);
+        }
+    }
+
+    IEnumerator EndingPop()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        EndingPanel.SetActive(true);
+        if (Data.hutang >= 0 && Data.korup == false)
+        {
+            GoodEnding();
+            //tampilkan good ending
+        }
+        else if (Data.hutang < 0)
+        {
+            BadEnding();
+            //tampilkan bad ending
+        }
+        else if (Data.hutang >= 0 && Data.korup == true)
+        {
+            VeryBadEnding();
+            //tampilkan secret ending
+        }
+
+    }
+
+    private void GoodEnding()
+    {
+        ColorUtility.TryParseHtmlString("#00FF09", out Color warnahijau);
+        GoodBadSec.color = warnahijau;
+        GoodBadSec.text = "good";
+        keterangan1.text = "Anda berhasil melunasi Hutang";
+        keterangan2.text = "Hidup anda sekarang Bahagia";
+    }
+    private void BadEnding()
+    {
+        ColorUtility.TryParseHtmlString("#FF0016", out Color warnaMerah);
+        GoodBadSec.color = warnaMerah;
+        GoodBadSec.text = "bad";
+        keterangan1.text = "Anda Gagal Melunasi Hutang";
+        keterangan2.text = "Hidup anda penuh kesengsaraan";
+    }
+    private void VeryBadEnding()
+    {
+        ColorUtility.TryParseHtmlString("#8E00FF", out Color warnaUngu);
+        GoodBadSec.color = warnaUngu;
+        GoodBadSec.text = "very Bad";
+        keterangan1.text = "Anda dipecat dan dipenjara karena korup";
+        keterangan2.text = "perbuatan tak jujur selalu berakhir buruk";
     }
 
     public void Pause()
