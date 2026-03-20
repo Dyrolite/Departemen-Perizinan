@@ -110,6 +110,11 @@ public class ManagerInspect : MonoBehaviour
     public int SkorTot;
     bool isPaused = false;
 
+    [Header("Data Usaha Klien")]
+    public string[] listNamaUsaha = { "Maju Jaya", "Sejahtera Bersama", "Mundur Terus", "Berkah Abadi" }; // Bisa abang tambah sendiri
+    private string currentNamaUsaha;
+    private string currentPrefixUsaha;
+
     void Start()
     {
         totalKlien = 0;
@@ -181,13 +186,11 @@ public class ManagerInspect : MonoBehaviour
         // 2. Tentukan Daftar Dokumen Wajib Berdasarkan Level
         List<Files.TipeDokumen> dokumenWajibLevelIni = new List<Files.TipeDokumen>();
         dokumenWajibLevelIni.Add(Files.TipeDokumen.KTP);
+        dokumenWajibLevelIni.Add(Files.TipeDokumen.NPWP);
         dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU);
 
+
         // NPWP hanya muncul di Level 3
-        if (level == PilihLevel.level_3)
-        {
-            dokumenWajibLevelIni.Add(Files.TipeDokumen.NPWP);
-        }
 
         // 3. Tentukan Jumlah Berkas yang Keluar (Logika Berkas Kurang)
         int jumlahBerkasWajib = dokumenWajibLevelIni.Count;
@@ -224,6 +227,9 @@ public class ManagerInspect : MonoBehaviour
             Files.TipeDokumen tipeYangDibuat;
             string namaDiKertas = namaAsliKlien;
             string alamatDiKertas = alamatAsliKlien;
+
+            string namaUsahaDiKertas = currentNamaUsaha;
+            string prefixDiKertas = currentPrefixUsaha;
 
             GameObject prefabPilihan = null;
             Sprite spriteSalahPilihan = null;
@@ -300,8 +306,7 @@ public class ManagerInspect : MonoBehaviour
                 objekUangSuap = berkasBaru;
             }
 
-            data.SetupBerkasDinamis(tipeYangDibuat, spriteSalahPilihan, namaDiKertas, alamatDiKertas, currentTTL, currentJenisKelamin, currentAgama, currentStatus, currentPekerjaan);
-
+            data.SetupBerkasDinamis(tipeYangDibuat, spriteSalahPilihan, namaDiKertas, alamatDiKertas, currentTTL, currentJenisKelamin, currentAgama, currentStatus, currentPekerjaan, namaUsahaDiKertas, prefixDiKertas);
             berkasDiMeja.Add(berkasBaru);
 
             Vector3 posisiAkhir = titikAmplopKedua.position;
@@ -355,6 +360,7 @@ public class ManagerInspect : MonoBehaviour
             DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
             if (scriptUang.isStored)
             {
+                
                 Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
                 return;
             }
@@ -365,7 +371,7 @@ public class ManagerInspect : MonoBehaviour
         }
         else if (klienValid)
         {
-            Data.hutang += 250000;
+            Data.hutang += 350000;
             UpdateHutang();
             SkorTot++;
             Debug.Log("TEPAT: Berkas lengkap dan asli di-Approve.");
@@ -396,17 +402,23 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Kamu masih menahan uangnya di meja! Jika ingin terima suap, pilih APPROVE.");
                 return;
             }
-
+            Data.hutang += 250000;
+            UpdateHutang();
             SkorTot++;
             Debug.Log("TEPAT: Kamu menolak suap dari klien berdokumen palsu. Uang dikembalikan!");
         }
         else if (!klienValid)
-        {
+        {   
+            Data.hutang += 250000;
+            UpdateHutang();
             SkorTot++;
             Debug.Log("TEPAT: Dokumen palsu berhasil di-Reject.");
+            
         }
         else
         {
+            Data.hutang += 100000;
+            UpdateHutang();
             SkorTot--;
             Debug.Log("PELANGGARAN: Dokumen lengkap dan asli malah kamu Reject!");
         }

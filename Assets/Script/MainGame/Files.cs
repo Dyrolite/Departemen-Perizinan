@@ -28,14 +28,17 @@ public class Files : MonoBehaviour
     public TextMeshProUGUI textNama; 
     public TextMeshProUGUI textAlamat;
     public TextMeshProUGUI textKotaAtas;
-    public TextMeshProUGUI textKotaBawahFoto; 
+    public TextMeshProUGUI textKotaBawahFoto;
+
+    public TextMeshProUGUI textNamaUsaha;
+    public TextMeshProUGUI textPrefixPTCV; 
 
     private void Awake()
     {
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-   public void SetupBerkasDinamis(TipeDokumen tipeBerkas, Sprite gambarDipilih, string namaTeks, string alamatTeks, string ttl, string jk, string agama, string status, string kerja)
+   public void SetupBerkasDinamis(TipeDokumen tipeBerkas, Sprite gambarDipilih, string namaTeks, string alamatTeks, string ttl, string jk, string agama, string status, string kerja, string namaUsaha, string prefixUsaha)
     {
         tipe = tipeBerkas;
         namaDiBerkas = namaTeks;
@@ -89,5 +92,16 @@ public class Files : MonoBehaviour
         if (textAgama != null) textAgama.text = agama;
         if (textStatus != null) textStatus.text = status;
         if (textPekerjaan != null) textPekerjaan.text = kerja;
+
+        if (textNamaUsaha != null) {
+    textNamaUsaha.gameObject.SetActive(true);
+    textNamaUsaha.text = namaUsaha;
+}
+
+if (textPrefixPTCV != null) {
+    textPrefixPTCV.gameObject.SetActive(true);
+    textPrefixPTCV.text = prefixUsaha; // Kalau di Level 3 kena gacha salah, ini otomatis kosong ""
+}
     }
+
 }

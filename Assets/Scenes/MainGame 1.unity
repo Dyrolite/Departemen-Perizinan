@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7189e9942927b694bb698ab5defa9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
-  level: 0
+  level: 2
   templateBerkas:
   - tipeDokumen: 0
     prefabDokumen: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
@@ -1630,15 +1630,24 @@ MonoBehaviour:
   titikSpawnKlien: {fileID: 375573864}
   titikTengahKlien: {fileID: 1705550719}
   titikMeja: {fileID: 671120313}
-  kecepatanGerak: 0.5
-  KlienPerLevel: 10
   titikAmplopKedua: {fileID: 2017264056}
-  SkorTot: 0
   titikAkhirBerkas:
   - {fileID: 1331572247}
   - {fileID: 993391067}
   - {fileID: 1641628626}
   - {fileID: 561655164}
+  kecepatanGerak: 0.5
+  KlienPerLevel: 10
+  SkorTot: 0
+  listNamaUsaha:
+  - Maju Jaya
+  - Sejahtera Bersama
+  - Mundur Terus
+  - Berkah Abadi
+  - Mencari Cinta Sejati
+  - Ubisoft
+  - Mencari Cinta Sejati
+  - Mencari Cinta Sejati
 --- !u!4 &629433079
 Transform:
   m_ObjectHideFlags: 0
