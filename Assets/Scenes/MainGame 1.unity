@@ -1999,7 +1999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7189e9942927b694bb698ab5defa9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
-  level: 2
+  level: 1
   templateBerkas:
   - tipeDokumen: 0
     prefabDokumen: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
@@ -4372,7 +4372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1534251321
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6612,11 +6612,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 729794497279039345, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7108028
+      value: 1.710803
       objectReference: {fileID: 0}
     - target: {fileID: 729794497279039345, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.1529014
+      value: 1.710803
       objectReference: {fileID: 0}
     - target: {fileID: 729794497279039345, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6656,6 +6656,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 729794497279039345, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 729794497279039345, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7472139738655255127, guid: 4b0e5b997e7df6745be08a312e9c4344, type: 3}

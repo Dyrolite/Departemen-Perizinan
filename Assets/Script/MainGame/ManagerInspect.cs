@@ -106,7 +106,7 @@ public class ManagerInspect : MonoBehaviour
     private Animator AmplopAnim;
     private Collider2D AmplopCol;
     private GameObject objekUangSuap = null;
-
+    private float scaleKlien;
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid;
     private bool sedangProsesAnimasi = false;
@@ -114,6 +114,7 @@ public class ManagerInspect : MonoBehaviour
     int approveTot;
     int RejectTot;
     public int SkorTot;
+    private Animator klienanim;
     bool isPaused = false;
 
     [Header("Data Usaha Klien")]
@@ -123,6 +124,7 @@ public class ManagerInspect : MonoBehaviour
 
     void Start()
     {
+        klienanim = karakterKlien.GetComponent<Animator>();
         totalKlien = 0;
         approveTot = 0;
         RejectTot = 0;
@@ -150,14 +152,22 @@ public class ManagerInspect : MonoBehaviour
 
     IEnumerator SiklusKlienMasuk()
     {
+        klienanim.SetBool("walk", true);
+        klienanim.SetBool("PopChar", false);
         totalKlien++;
         IsGennerateBaru = true;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
 
         karakterKlien.transform.position = titikSpawnKlien.position;
-        yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
+        
+        Vector3 skalaMasuk = karakterKlien.transform.localScale;
+        skalaMasuk.x = Mathf.Abs(skalaMasuk.x); // Dibuat positif (normal) agar menghadap meja
+        karakterKlien.transform.localScale = skalaMasuk;
 
+        yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
+        klienanim.SetBool("walk", false);
+        klienanim.SetBool("PopChar", true);
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
         AmplopAnim.SetTrigger("taruh");
@@ -340,6 +350,7 @@ public class ManagerInspect : MonoBehaviour
     }
     IEnumerator GerakLerp(GameObject objek, Vector3 start, Vector3 end)
     {
+        
         float t = 0;
         while (t < 1)
         {
@@ -462,7 +473,11 @@ public class ManagerInspect : MonoBehaviour
         AmplopKebuka = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
-
+        Vector3 skalaKeluar = karakterKlien.transform.localScale;
+        skalaKeluar.x = -Mathf.Abs(skalaKeluar.x); // Dibuat negatif agar menghadap pintu keluar
+        karakterKlien.transform.localScale = skalaKeluar;
+        klienanim.SetBool("PopChar", false);
+        klienanim.SetBool("walk", true);
         if (scriptAmplopBawah != null)
         {
             scriptAmplopBawah.ResetAmplop();
