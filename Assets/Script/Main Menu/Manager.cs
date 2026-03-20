@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour
     
     public void Play()
     {
+        Data.hutang = 10000000;
         SceneManager.LoadScene("MainGame 1");
     }
     public void Quit()

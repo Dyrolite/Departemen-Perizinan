@@ -108,6 +108,7 @@ public class ManagerInspect : MonoBehaviour
     public TextMeshProUGUI skor;
     public TextMeshProUGUI sisautang;
     public GameObject PetunjukPanel;
+    public TextMeshProUGUI Hutang;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien; // Luar layar kanan
@@ -151,6 +152,7 @@ public class ManagerInspect : MonoBehaviour
         AmplopCol = Amplop.GetComponent<Collider2D>();
         AmplopCol.enabled = false;
         SetTombolAktif(false);
+        UpdateHutang();
         StartCoroutine(SiklusKlienMasuk());
         if (level == PilihLevel.level_1)
         {
@@ -334,10 +336,16 @@ public class ManagerInspect : MonoBehaviour
                 return; // Gagalkan klik tombol
             }
             SkorTot++;
+            Data.hutang += 500000;
+            UpdateHutang();
+            //Hutang dikurangi banyak
             Debug.Log("KONSEKUENSI: Kamu Menerima Suap! (Uang diambil, Klien di-Approve)");
         }
         else if (klienValid)
         {
+            Data.hutang += 250000;
+            UpdateHutang();
+            //hutang dikurangi sedikit
             SkorTot++;
             Debug.Log("TEPAT: Berkas lengkap dan asli di-Approve.");
         }
@@ -349,7 +357,24 @@ public class ManagerInspect : MonoBehaviour
         approveTot++;
         StartCoroutine(SiklusKlienKeluar());
     }
-
+    private void UpdateHutang()
+    {
+        // Pengecekan keamanan
+        if (Hutang == null)
+        {
+            Debug.LogError("ERROR: Variabel 'Hutang' masih kosong di Inspector! Cek objek ini: " + gameObject.name);
+            return; // Hentikan fungsi agar tidak memunculkan NullReferenceException
+        }
+        if (Data.hutang < 0)
+        {
+            Hutang.color = Color.red;
+        }
+        else
+        {
+            Hutang.color = Color.green;
+        }
+            Hutang.text = "Rp" + Data.hutang.ToString("N0");
+    }
     public void PilihReject()
     {
         if (sedangProsesAnimasi) return;
