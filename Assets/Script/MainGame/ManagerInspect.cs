@@ -575,24 +575,24 @@ public class ManagerInspect : MonoBehaviour
         ColorUtility.TryParseHtmlString("#00FF09", out Color warnahijau);
         GoodBadSec.color = warnahijau;
         GoodBadSec.text = "good";
-        keterangan1.text = "Anda berhasil melunasi Hutang";
-        keterangan2.text = "Hidup anda sekarang Bahagia";
+        keterangan1.text = "Anda berhasil melunasi Hutang" +
+            ". Hidup anda sekarang Bahagia";
     }
     private void BadEnding()
     {
         ColorUtility.TryParseHtmlString("#FF0016", out Color warnaMerah);
         GoodBadSec.color = warnaMerah;
         GoodBadSec.text = "bad";
-        keterangan1.text = "Anda Gagal Melunasi Hutang";
-        keterangan2.text = "Hidup anda penuh kesengsaraan";
+        keterangan1.text = "Anda Gagal Melunasi Hutang" +
+            ". Hidup anda penuh kesengsaraan";
     }
     private void VeryBadEnding()
     {
         ColorUtility.TryParseHtmlString("#8E00FF", out Color warnaUngu);
         GoodBadSec.color = warnaUngu;
         GoodBadSec.text = "very Bad";
-        keterangan1.text = "Anda dipecat dan dipenjara karena korup";
-        keterangan2.text = "perbuatan tak jujur selalu berakhir buruk";
+        keterangan1.text = "Anda dipecat dan dipenjara karena korup" +
+            ". perbuatan tak jujur selalu berakhir buruk";
     }
 
     public void Pause()
