@@ -1,10 +1,25 @@
 fileFormatVersion: 2
-guid: 49c6b4605d671d548b7e652f1d842655
+guid: d2233bcf9c4fb604a946bc9692b44bcd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4565053449074005497
-    second: OfficeBackground_0
+      213: -1828072341149925350
+    second: ed scrt chara_0
+  - first:
+      213: 4612795234514749577
+    second: ed scrt chara_1
+  - first:
+      213: 7474681066654198952
+    second: ed scrt chara_2
+  - first:
+      213: -1536509042193016866
+    second: ed scrt chara_3
+  - first:
+      213: 3761329232105378884
+    second: ed scrt chara_4
+  - first:
+      213: 2852897285708997277
+    second: ed scrt chara_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficeBackground_0
+      name: ed scrt chara_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 384
+        x: 58
+        y: 41
+        width: 279
+        height: 279
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +156,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f55abcdce35a5f30800000000000000
-      internalID: 4565053449074005497
+      spriteID: a10ca0a24e161a6e0800000000000000
+      internalID: -1828072341149925350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ed scrt chara_1
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 281
+        width: 54
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 988cdde73d0f30040800000000000000
+      internalID: 4612795234514749577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ed scrt chara_2
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 285
+        width: 27
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ace24bd3d66bb760800000000000000
+      internalID: 7474681066654198952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ed scrt chara_3
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 314
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed7d8e9ba293daae0800000000000000
+      internalID: -1536509042193016866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ed scrt chara_4
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 290
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4441fea120de23430800000000000000
+      internalID: 3761329232105378884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ed scrt chara_5
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 58
+        width: 125
+        height: 224
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d926c5f47f6879720800000000000000
+      internalID: 2852897285708997277
       vertices: []
       indices: 
       edges: []
@@ -161,7 +286,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficeBackground_0: 4565053449074005497
+      ed scrt chara_0: -1828072341149925350
+      ed scrt chara_1: 4612795234514749577
+      ed scrt chara_2: 7474681066654198952
+      ed scrt chara_3: -1536509042193016866
+      ed scrt chara_4: 3761329232105378884
+      ed scrt chara_5: 2852897285708997277
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

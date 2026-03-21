@@ -91,10 +91,17 @@ public class ManagerInspect : MonoBehaviour
     public TextMeshProUGUI sisautang;
     public GameObject PetunjukPanel;
     public TextMeshProUGUI Hutang;
-    public GameObject EndingPanel;
+    public GameObject endingPanelParent;
+    public Animator endingPanelParentAnim;
+    public GameObject GoodEndingPanel;
+    public GameObject GoodIMG;
+    public GameObject BadEndingPanel;
+    public GameObject BadIMG;
+    public GameObject SecEndingPanel;
+    public GameObject SecIMG;
+    public GameObject EndingMainmenu;
     public TextMeshProUGUI GoodBadSec;
     public TextMeshProUGUI keterangan1;
-    public TextMeshProUGUI keterangan2;
 
     [Header("Titik Transform")]
     public Transform titikSpawnKlien;
@@ -154,8 +161,6 @@ public class ManagerInspect : MonoBehaviour
         // 2. Waktunya habis, jedar! Bunyikan suaranya
         sfxPlayer.PlayOneShot(klip);
     }
-
-    
     
     [Header("Data Usaha Klien")]
     public string[] listNamaUsaha = { "Maju Jaya", "Sejahtera Bersama", "Mundur Terus", "Berkah Abadi" }; // Bisa abang tambah sendiri
@@ -172,8 +177,15 @@ public class ManagerInspect : MonoBehaviour
         PausePanel.SetActive(false);
         SummaryPanel.SetActive(false);
         PetunjukPanel.SetActive(false);
-        EndingPanel.SetActive(false);
+        EndingMainmenu.SetActive(false);
+        endingPanelParent.SetActive(false);
 
+        //GoodEndingPanel.SetActive(true);
+        //BadEndingPanel.SetActive(true);
+        //SecEndingPanel.SetActive(true);
+        //GoodIMG.SetActive(true);
+        //BadIMG.SetActive(true);
+        //SecIMG.SetActive(true);
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
         klienSpriteRenderer = karakterKlien.GetComponent<SpriteRenderer>();
@@ -440,10 +452,7 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Uang sudah dikembalikan ke amplop! Jika ingin menolak suap, pilih REJECT.");
                 return;
             }
-            if (Data.korup == false)
-            {
-                Data.korup = true;
-            }
+            Data.korup = true;
             SkorTot++;
             Data.hutang += 500000;
             UpdateHutang();
@@ -483,10 +492,6 @@ public class ManagerInspect : MonoBehaviour
                 Debug.Log("TINDAKAN ILEGAL: Kamu masih menahan uangnya di meja! Jika ingin terima suap, pilih APPROVE.");
                 return;
             }
-            if (Data.korup == false)
-            {
-                Data.korup = true;
-            }
             Data.hutang += 250000;
             UpdateHutang();
             SkorTot++;
@@ -510,7 +515,6 @@ public class ManagerInspect : MonoBehaviour
         RejectTot++;
         StartCoroutine(SiklusKlienKeluar());
     }
-
     private void UpdateHutang()
     {
         if (Hutang == null)
@@ -587,7 +591,6 @@ public class ManagerInspect : MonoBehaviour
         btnApprove.interactable = aktif;
         btnReject.interactable = aktif;
     }
-
     public bool SemuaBerkasTersimpan()
     {
         if (berkasDiMeja.Count == 0) return false;
@@ -633,7 +636,7 @@ public class ManagerInspect : MonoBehaviour
             SummaryPanel.SetActive(true);
             sumContinue.SetActive(false);
             sumMainMenu.SetActive(false);
-
+            endingPanelParent.SetActive(true);
             StartCoroutine(EndingPop());
         }
         else
@@ -644,24 +647,23 @@ public class ManagerInspect : MonoBehaviour
 
     IEnumerator EndingPop()
     {
-        yield return new WaitForSecondsRealtime(1f);
-        EndingPanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(2f);
         if (Data.hutang >= 0 && Data.korup == false)
         {
             GoodEnding();
             //tampilkan good ending
-        }
-        else if (Data.hutang < 0)
-        {
-            BadEnding();
-            //tampilkan bad ending
         }
         else if (Data.hutang >= 0 && Data.korup == true)
         {
             VeryBadEnding();
             //tampilkan secret ending
         }
-
+        else
+        {
+            BadEnding();
+            //tampilkan bad ending
+        }
+        endingPanelParentAnim.SetTrigger("End");
     }
 
     private void GoodEnding()
@@ -671,6 +673,10 @@ public class ManagerInspect : MonoBehaviour
         GoodBadSec.text = "good";
         keterangan1.text = "Anda berhasil melunasi Hutang" +
             ". Hidup anda sekarang Bahagia";
+        BadEndingPanel.SetActive(false);
+        SecEndingPanel.SetActive(false);
+        BadIMG.SetActive(false);
+        SecIMG.SetActive(false);
     }
     private void BadEnding()
     {
@@ -679,6 +685,10 @@ public class ManagerInspect : MonoBehaviour
         GoodBadSec.text = "bad";
         keterangan1.text = "Anda Gagal Melunasi Hutang" +
             ". Hidup anda penuh kesengsaraan";
+        GoodEndingPanel.SetActive(false);
+        SecEndingPanel.SetActive(false);
+        GoodIMG.SetActive(false);
+        SecIMG.SetActive(false);
     }
     private void VeryBadEnding()
     {
@@ -687,6 +697,10 @@ public class ManagerInspect : MonoBehaviour
         GoodBadSec.text = "very Bad";
         keterangan1.text = "Anda dipecat dan dipenjara karena korup" +
             ". perbuatan tak jujur selalu berakhir buruk";
+        GoodEndingPanel.SetActive(false);
+        BadEndingPanel.SetActive(false);
+        GoodIMG.SetActive(false);
+        BadIMG.SetActive(false);
     }
 
     public void Pause()
@@ -708,7 +722,6 @@ public class ManagerInspect : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
     }
-
     public void ContinuePtnjk()
     {
         PetunjukPanel.SetActive(false);

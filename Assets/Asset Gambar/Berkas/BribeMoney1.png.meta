@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 49c6b4605d671d548b7e652f1d842655
+guid: cd0363f001d046e4d8cbe0f4fcc119bc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4565053449074005497
-    second: OfficeBackground_0
+      213: -5307084442191212884
+    second: BribeMoney1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficeBackground_0
+      name: BribeMoney1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 384
+        x: 14
+        y: 30
+        width: 164
+        height: 132
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f55abcdce35a5f30800000000000000
-      internalID: 4565053449074005497
+      spriteID: caec03661d27956b0800000000000000
+      internalID: -5307084442191212884
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficeBackground_0: 4565053449074005497
+      BribeMoney1_0: -5307084442191212884
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 49c6b4605d671d548b7e652f1d842655
+guid: e64cb6913bebc6a4cb01324901e0a5e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4565053449074005497
-    second: OfficeBackground_0
+      213: -4517414926920156555
+    second: CurrencyFix_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficeBackground_0
+      name: CurrencyFix_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 512
-        height: 384
+        x: 3
+        y: 17
+        width: 106
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f55abcdce35a5f30800000000000000
-      internalID: 4565053449074005497
+      spriteID: 57a70e9ee0bee41c0800000000000000
+      internalID: -4517414926920156555
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficeBackground_0: 4565053449074005497
+      CurrencyFix_0: -4517414926920156555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

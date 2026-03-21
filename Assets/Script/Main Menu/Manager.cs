@@ -18,5 +18,15 @@ public class Manager : MonoBehaviour
         Application.Quit();
 #endif
     }
-    
+    public void ContinueTo2()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainGame 2");
+    }
+    public void ContinueTo3()
+    {
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene("MainGame 3");
+    }
 }

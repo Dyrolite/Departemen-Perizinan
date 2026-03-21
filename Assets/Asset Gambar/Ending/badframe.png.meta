@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 49c6b4605d671d548b7e652f1d842655
+guid: b2b74294eeef36b43b08a649210d15f0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4565053449074005497
-    second: OfficeBackground_0
+      213: -665506243789432902
+    second: badframe_0
+  - first:
+      213: -4037646007338690605
+    second: badframe_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OfficeBackground_0
+      name: badframe_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 236
         width: 512
-        height: 384
+        height: 148
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +144,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9f55abcdce35a5f30800000000000000
-      internalID: 4565053449074005497
+      spriteID: ab75027e895a3c6f0800000000000000
+      internalID: -665506243789432902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: badframe_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d79dc3495667f7c0800000000000000
+      internalID: -4037646007338690605
       vertices: []
       indices: 
       edges: []
@@ -161,7 +186,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      OfficeBackground_0: 4565053449074005497
+      badframe_0: -665506243789432902
+      badframe_1: -4037646007338690605
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

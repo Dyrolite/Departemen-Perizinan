@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6110103020745395671, guid: 6a3baaee4d069d04c807e331d4cbef1a, type: 3}
+  m_Sprite: {fileID: 2040105596372437722, guid: d0474fc74153b9548888efad170d2022, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,9 +111,18 @@ MonoBehaviour:
   tipe: 3
   namaDiBerkas: 
   alamatDiBerkas: 
+  textTTL: {fileID: 0}
+  textJenisKelamin: {fileID: 0}
+  textAgama: {fileID: 0}
+  textStatus: {fileID: 0}
+  textPekerjaan: {fileID: 0}
   spriteRenderer: {fileID: 0}
   textNama: {fileID: 8560200858863223912}
   textAlamat: {fileID: 5204134672528380192}
+  textKotaAtas: {fileID: 0}
+  textKotaBawahFoto: {fileID: 0}
+  textNamaUsaha: {fileID: 0}
+  textPrefixPTCV: {fileID: 0}
 --- !u!114 &8314512082641275805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +237,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.4771085, y: 1.4204819}
+    oldSize: {x: 1.64, y: 1.4}
     newSize: {x: 3.38, y: 1.94}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

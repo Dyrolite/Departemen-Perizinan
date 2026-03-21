@@ -2142,7 +2142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7189e9942927b694bb698ab5defa9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
-  level: 0
+  level: 2
   templateBerkas:
   - tipeDokumen: 0
     prefabDokumen: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
@@ -4680,19 +4680,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1458012536}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 629433080}
-        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ContinueTo2
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1458012536
 MonoBehaviour:
   m_ObjectHideFlags: 0

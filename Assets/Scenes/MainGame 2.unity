@@ -2142,7 +2142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7189e9942927b694bb698ab5defa9676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManagerInspect
-  level: 0
+  level: 1
   templateBerkas:
   - tipeDokumen: 0
     prefabDokumen: {fileID: 4142191554089523355, guid: 661601ee6b3433044bffe00d6bf19945, type: 3}
@@ -4683,7 +4683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 629433080}
         m_TargetAssemblyTypeName: Manager, Assembly-CSharp
-        m_MethodName: ContinueTo2
+        m_MethodName: ContinueTo3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
