@@ -93,15 +93,17 @@ public class Files : MonoBehaviour
         if (textStatus != null) textStatus.text = status;
         if (textPekerjaan != null) textPekerjaan.text = kerja;
 
-        if (textNamaUsaha != null) {
-    textNamaUsaha.gameObject.SetActive(true);
-    textNamaUsaha.text = namaUsaha;
-}
+        if (textNamaUsaha != null) 
+        {
+            textNamaUsaha.gameObject.SetActive(true);
+            textNamaUsaha.text = namaUsaha; 
+        }
 
-if (textPrefixPTCV != null) {
-    textPrefixPTCV.gameObject.SetActive(true);
-    textPrefixPTCV.text = prefixUsaha; // Kalau di Level 3 kena gacha salah, ini otomatis kosong ""
-}
+        if (textPrefixPTCV != null) 
+        {
+            textPrefixPTCV.gameObject.SetActive(true);
+            textPrefixPTCV.text = prefixUsaha; 
+        }
     }
 
 }

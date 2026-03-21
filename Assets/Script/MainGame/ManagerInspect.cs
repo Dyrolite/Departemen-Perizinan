@@ -124,6 +124,39 @@ public class ManagerInspect : MonoBehaviour
     private Animator klienanim;
     bool isPaused = false;
 
+    [Header("Pengaturan Audio / SFX")]
+    public AudioSource sfxPlayer; // Mesin pemutar suaranya
+    public AudioClip sfxKlienMasuk; // Suara langkah kaki / pintu
+    public AudioClip sfxApprove;    // Suara stempel HIJAU
+    public AudioClip sfxReject;     // Suara stempel MERAH
+
+    public void MainkanSFX(AudioClip klipSuara)
+    {
+        // Ngecek biar gak error kalau abang lupa masukin audio-nya
+        if (sfxPlayer != null && klipSuara != null)
+        {
+            sfxPlayer.PlayOneShot(klipSuara); 
+        }
+    }
+    public void MainkanSFXDelay(AudioClip klipSuara, float waktuDelay)
+    {
+        // Panggil coroutine khusus buat nunggu
+        if (sfxPlayer != null && klipSuara != null)
+        {
+            StartCoroutine(ProsesDelaySFX(klipSuara, waktuDelay));
+        }
+    }
+    IEnumerator ProsesDelaySFX(AudioClip klip, float jeda)
+    {
+        // 1. Nunggu dulu sesuai waktu yang abang minta
+        yield return new WaitForSeconds(jeda);
+        
+        // 2. Waktunya habis, jedar! Bunyikan suaranya
+        sfxPlayer.PlayOneShot(klip);
+    }
+
+    
+    
     [Header("Data Usaha Klien")]
     public string[] listNamaUsaha = { "Maju Jaya", "Sejahtera Bersama", "Mundur Terus", "Berkah Abadi" }; // Bisa abang tambah sendiri
     private string currentNamaUsaha;
@@ -171,6 +204,8 @@ public class ManagerInspect : MonoBehaviour
         klienAktif = Instantiate(karakterKlien, titikSpawnKlien.position, Quaternion.identity);
         klienanim = klienAktif.GetComponent<Animator>();
         klienSpriteRenderer = klienAktif.GetComponent<SpriteRenderer>();
+        MainkanSFXDelay(sfxKlienMasuk, 0.5f);
+
 
         // 2. Acak Gambarnya Sejak Awal (LateUpdate akan langsung menjaganya)
         if (listSpriteKlien != null && listSpriteKlien.Count > 0)
@@ -217,12 +252,10 @@ public class ManagerInspect : MonoBehaviour
         int tipeSkenario;
         if (level == PilihLevel.level_1)
         {
-            // Level 1: Hanya ada Valid (0) dan Palsu (1). Tidak ada suap.
             tipeSkenario = Random.Range(0, 2);
         }
         else
         {
-            // Level 2 & 3: Valid (0), Palsu (1), Suap (2)
             tipeSkenario = Random.Range(0, 3);
         }
 
@@ -233,30 +266,29 @@ public class ManagerInspect : MonoBehaviour
         List<Files.TipeDokumen> dokumenWajibLevelIni = new List<Files.TipeDokumen>();
         dokumenWajibLevelIni.Add(Files.TipeDokumen.KTP);
         dokumenWajibLevelIni.Add(Files.TipeDokumen.NPWP);
-        dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU);
+        dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU); // SKU naik ke atas biar wajib
+        
 
-
-        // NPWP hanya muncul di Level 3
-
-        // 3. Tentukan Jumlah Berkas yang Keluar (Logika Berkas Kurang)
+        // 3. Tentukan Jumlah Berkas yang Keluar
         int jumlahBerkasWajib = dokumenWajibLevelIni.Count;
         if (tipeSkenario != 0)
         {
-            // Jika klien bermasalah, ada kemungkinan dia kurang membawa 1 berkas
-            if (Random.value > 0.5f)
-            {
-                jumlahBerkasWajib -= 1;
-            }
+            if (Random.value > 0.5f) jumlahBerkasWajib -= 1;
         }
 
-        // Jika kurang dari syarat wajib, klien otomatis invalid
         if (jumlahBerkasWajib < dokumenWajibLevelIni.Count) klienValid = false;
 
         int totalBerkasDimunculkan = isPenyuapan ? jumlahBerkasWajib + 1 : jumlahBerkasWajib;
 
-        // 4. Persiapan Data Teks
+        // ==========================================================
+        // 4. PERSIAPAN DATA TEKS (INI YANG TADI KURANG BANG!)
+        // ==========================================================
         string namaAsliKlien = listOrangBenar[Random.Range(0, listOrangBenar.Length)];
         string alamatAsliKlien = listAlamat[Random.Range(0, listAlamat.Length)];
+
+        // KITA KOCOK NAMA USAHANYA DI SINI BIAR GAK KOSONG
+        currentNamaUsaha = listNamaUsaha[Random.Range(0, listNamaUsaha.Length)];
+        currentPrefixUsaha = (Random.value > 0.5f) ? "PT." : "CV.";
 
         if (listTTL.Count > 0) currentTTL = listTTL[Random.Range(0, listTTL.Count)];
         if (listJenisKelamin.Count > 0) currentJenisKelamin = listJenisKelamin[Random.Range(0, listJenisKelamin.Count)];
@@ -285,11 +317,10 @@ public class ManagerInspect : MonoBehaviour
                 tipeYangDibuat = dokumenWajibLevelIni[i];
                 bool jadikanBerkasIniSalah = false;
 
-                // Jika skenario salah dan dokumen lengkap, pastikan minimal ada 1 dokumen yang isinya salah
                 if (tipeSkenario != 0 && jumlahBerkasWajib == dokumenWajibLevelIni.Count)
                 {
                     if (i > 0 && !dataSudahDibuatSalah && Random.value > 0.4f) jadikanBerkasIniSalah = true;
-                    if (i == jumlahBerkasWajib - 1 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true; // Paksa dokumen terakhir salah
+                    if (i == jumlahBerkasWajib - 1 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true; 
                 }
 
                 if (jadikanBerkasIniSalah)
@@ -297,14 +328,17 @@ public class ManagerInspect : MonoBehaviour
                     dataSudahDibuatSalah = true;
                     if (tipeYangDibuat == Files.TipeDokumen.SKU)
                     {
-                        if (Random.value > 0.5f)
+                        // ==========================================================
+                        // LOGIKA LEVEL 3: HILANGKAN TEKS PT/CV (INI JUGA BARU)
+                        // ==========================================================
+                        if (level == PilihLevel.level_3 && Random.value > 0.4f)
                         {
-                            namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
+                            prefixDiKertas = ""; // Teks dikosongkan biar kliennya disalahkan!
                         }
                         else
                         {
-                            // TTD Palsu akan dicari di bawah
-                            spriteSalahPilihan = null;
+                            if (Random.value > 0.5f) namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
+                            else spriteSalahPilihan = null;
                         }
                     }
                     else // Untuk KTP atau NPWP
@@ -318,7 +352,7 @@ public class ManagerInspect : MonoBehaviour
             {
                 // Bagian Amplop Uang Suap
                 tipeYangDibuat = Files.TipeDokumen.AmplopUang;
-                namaDiKertas = ""; alamatDiKertas = "";
+                namaDiKertas = ""; alamatDiKertas = ""; namaUsahaDiKertas = ""; prefixDiKertas = "";
             }
 
             // Cari Prefab dari Database
@@ -328,8 +362,7 @@ public class ManagerInspect : MonoBehaviour
                 {
                     prefabPilihan = db.prefabDokumen;
 
-                    // Ambil TTD palsu khusus jika ini SKU dan diminta disalahkan gambarnya
-                    if (dataSudahDibuatSalah && namaDiKertas == namaAsliKlien && tipeYangDibuat == Files.TipeDokumen.SKU)
+                    if (dataSudahDibuatSalah && namaDiKertas == namaAsliKlien && tipeYangDibuat == Files.TipeDokumen.SKU && prefixDiKertas != "")
                     {
                         spriteSalahPilihan = db.gambarSalahAlternatif;
                     }
@@ -337,11 +370,7 @@ public class ManagerInspect : MonoBehaviour
                 }
             }
 
-            if (prefabPilihan == null)
-            {
-                Debug.LogError($"Prefab untuk {tipeYangDibuat} belum diisi di Inspector!");
-                continue;
-            }
+            if (prefabPilihan == null) continue;
 
             // Instantiate
             GameObject berkasBaru = Instantiate(prefabPilihan, titikAmplopKedua.position, Quaternion.identity);
@@ -402,6 +431,7 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
             return;
         }
+        MainkanSFX(sfxApprove);
         if (isPenyuapan && objekUangSuap != null)
         {
             DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
@@ -444,6 +474,7 @@ public class ManagerInspect : MonoBehaviour
             Debug.Log("PERINGATAN: Rapikan dan masukkan semua dokumen ke amplop terlebih dahulu!");
             return;
         }
+        MainkanSFX(sfxReject);
         if (isPenyuapan && objekUangSuap != null)
         {
             DragFile scriptUang = objekUangSuap.GetComponent<DragFile>();
@@ -502,6 +533,8 @@ public class ManagerInspect : MonoBehaviour
         AmplopKebuka = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
+
+        MainkanSFXDelay(sfxKlienMasuk, 0.5f);
 
         // 1. Trigger animasi Menghilang (putih ke hitam)
         klienanim.SetBool("PopChar", true);
