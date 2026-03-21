@@ -167,7 +167,6 @@ public class ManagerInspect : MonoBehaviour
 
         yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
         klienanim.SetBool("walk", false);
-        klienanim.SetBool("PopChar", true);
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
         AmplopAnim.SetTrigger("taruh");
@@ -473,10 +472,11 @@ public class ManagerInspect : MonoBehaviour
         AmplopKebuka = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
+        klienanim.SetBool("PopChar", true);
+        yield return new WaitForSeconds (0.5f);
         Vector3 skalaKeluar = karakterKlien.transform.localScale;
         skalaKeluar.x = -Mathf.Abs(skalaKeluar.x); // Dibuat negatif agar menghadap pintu keluar
         karakterKlien.transform.localScale = skalaKeluar;
-        klienanim.SetBool("PopChar", false);
         klienanim.SetBool("walk", true);
         if (scriptAmplopBawah != null)
         {
@@ -548,7 +548,7 @@ public class ManagerInspect : MonoBehaviour
         App.text = "APPROVE: " + approveTot;
         rejc.text = "REJECT: " + RejectTot;
         skor.text = "SKOR: " + SkorTot + "/" + totalKlien;
-        sisautang.text = "SISA HUTANG: " + Data.hutang;
+        sisautang.text = "SISA HUTANG: " + Data.hutang.ToString("N0");
         if (level == PilihLevel.level_3)
         {
             SummaryPanel.SetActive(true);
