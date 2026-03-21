@@ -69,6 +69,10 @@ public class ManagerInspect : MonoBehaviour
 
     [Header("Referensi Objek")]
     public GameObject karakterKlien;
+    [Tooltip("Masukkan variasi gambar karakter klien di sini")]
+    public List<Sprite> listSpriteKlien; 
+    
+    private GameObject klienAktif;
     public Button btnApprove;
     public Button btnReject;
     public GameObject Amplop;
@@ -110,6 +114,9 @@ public class ManagerInspect : MonoBehaviour
     private List<GameObject> berkasDiMeja = new List<GameObject>();
     private bool klienValid;
     private bool sedangProsesAnimasi = false;
+    private SpriteRenderer klienSpriteRenderer; // <-- Tambahan
+    private Sprite spriteKlienTerpilih;
+    private bool kunciGambar = false;
     int totalKlien;
     int approveTot;
     int RejectTot;
@@ -124,7 +131,6 @@ public class ManagerInspect : MonoBehaviour
 
     void Start()
     {
-        klienanim = karakterKlien.GetComponent<Animator>();
         totalKlien = 0;
         approveTot = 0;
         RejectTot = 0;
@@ -137,6 +143,7 @@ public class ManagerInspect : MonoBehaviour
 
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
+        klienSpriteRenderer = karakterKlien.GetComponent<SpriteRenderer>();
         AmplopCol.enabled = false;
 
         SetTombolAktif(false);
@@ -149,23 +156,46 @@ public class ManagerInspect : MonoBehaviour
             PetunjukPanel.SetActive(true);
         }
     }
-
+    // FUNGSI JURUS PAMUNGKAS
+    void LateUpdate()
+    {
+        // Hanya paksa gambar kalau status kunci sedang aktif (saat di meja)
+        if (kunciGambar == true && klienSpriteRenderer != null && spriteKlienTerpilih != null)
+        {
+            klienSpriteRenderer.sprite = spriteKlienTerpilih;
+        }
+    }
     IEnumerator SiklusKlienMasuk()
     {
-        klienanim.SetBool("walk", true);
-        klienanim.SetBool("PopChar", false);
+        // 1. Munculkan Klien dari Prefab
+        klienAktif = Instantiate(karakterKlien, titikSpawnKlien.position, Quaternion.identity);
+        klienanim = klienAktif.GetComponent<Animator>();
+        klienSpriteRenderer = klienAktif.GetComponent<SpriteRenderer>();
+
+        // 2. Acak Gambarnya Sejak Awal (LateUpdate akan langsung menjaganya)
+        if (listSpriteKlien != null && listSpriteKlien.Count > 0)
+        {
+            spriteKlienTerpilih = listSpriteKlien[Random.Range(0, listSpriteKlien.Count)];
+        }
+
         totalKlien++;
         IsGennerateBaru = true;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
 
-        karakterKlien.transform.position = titikSpawnKlien.position;
-        
-        Vector3 skalaMasuk = karakterKlien.transform.localScale;
-        skalaMasuk.x = Mathf.Abs(skalaMasuk.x); // Dibuat positif (normal) agar menghadap meja
-        karakterKlien.transform.localScale = skalaMasuk;
+        // Arahkan muka ke meja (positif)
+        Vector3 skalaMasuk = klienAktif.transform.localScale;
+        skalaMasuk.x = Mathf.Abs(skalaMasuk.x);
+        klienAktif.transform.localScale = skalaMasuk;
 
-        yield return StartCoroutine(GerakLerp(karakterKlien, titikSpawnKlien.position, titikTengahKlien.position));
+        // 3. Mulai Jalan Masuk (Bentuk masih hitam sesuai animasimu)
+        klienanim.SetBool("PopChar", false);
+        klienanim.SetBool("walk", true);
+
+        yield return StartCoroutine(GerakLerp(klienAktif, titikSpawnKlien.position, titikTengahKlien.position));
+        kunciGambar = true;
+        // 4. Sampai di Meja! 
+        // walk = false mentrigger animasi memutih (memunculkan karakter)
         klienanim.SetBool("walk", false);
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
@@ -472,12 +502,23 @@ public class ManagerInspect : MonoBehaviour
         AmplopKebuka = false;
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
+
+        // 1. Trigger animasi Menghilang (putih ke hitam)
         klienanim.SetBool("PopChar", true);
-        yield return new WaitForSeconds (0.5f);
-        Vector3 skalaKeluar = karakterKlien.transform.localScale;
-        skalaKeluar.x = -Mathf.Abs(skalaKeluar.x); // Dibuat negatif agar menghadap pintu keluar
-        karakterKlien.transform.localScale = skalaKeluar;
+
+        // Tunggu 0.5 detik agar animasinya selesai menghitam (sesuaikan kalau kurang lama)
+        yield return new WaitForSeconds(0.5f);
+
+        // 2. Balik arah karakter ke pintu keluar
+        Vector3 skalaKeluar = klienAktif.transform.localScale;
+        skalaKeluar.x = -Mathf.Abs(skalaKeluar.x);
+        klienAktif.transform.localScale = skalaKeluar;
+        
+        kunciGambar = false;
+        
+        // 3. Mulai Jalan Keluar
         klienanim.SetBool("walk", true);
+
         if (scriptAmplopBawah != null)
         {
             scriptAmplopBawah.ResetAmplop();
@@ -489,7 +530,12 @@ public class ManagerInspect : MonoBehaviour
         }
         berkasDiMeja.Clear();
 
-        yield return StartCoroutine(GerakLerp(karakterKlien, titikTengahKlien.position, titikSpawnKlien.position));
+        // 4. Bergerak kembali ke titik luar
+        yield return StartCoroutine(GerakLerp(klienAktif, titikTengahKlien.position, titikSpawnKlien.position));
+
+        // 5. HANCURKAN KLIEN! Bersihkan memori untuk klien berikutnya
+        Destroy(klienAktif);
+        spriteKlienTerpilih = null;
 
         yield return new WaitForSeconds(1f);
         if (totalKlien >= KlienPerLevel)
