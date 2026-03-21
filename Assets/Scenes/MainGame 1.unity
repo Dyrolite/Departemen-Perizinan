@@ -2265,7 +2265,7 @@ MonoBehaviour:
   - {fileID: 1641628626}
   - {fileID: 561655164}
   kecepatanGerak: 0.5
-  KlienPerLevel: 1
+  KlienPerLevel: 10
   SkorTot: 0
   sfxPlayer: {fileID: 629433081}
   sfxKlienMasuk: {fileID: 8300000, guid: 3f9ed8d4815a02345bc9dfabad173536, type: 3}
