@@ -70,8 +70,8 @@ public class ManagerInspect : MonoBehaviour
     [Header("Referensi Objek")]
     public GameObject karakterKlien;
     [Tooltip("Masukkan variasi gambar karakter klien di sini")]
-    public List<Sprite> listSpriteKlien; 
-    
+    public List<Sprite> listSpriteKlien;
+
     private GameObject klienAktif;
     public Button btnApprove;
     public Button btnReject;
@@ -129,6 +129,8 @@ public class ManagerInspect : MonoBehaviour
     int RejectTot;
     public int SkorTot;
     private Animator klienanim;
+    bool ptnjkmuncl;
+    Animator PetunjukAnim;
     bool isPaused = false;
 
     [Header("Pengaturan Audio / SFX")]
@@ -142,7 +144,7 @@ public class ManagerInspect : MonoBehaviour
         // Ngecek biar gak error kalau abang lupa masukin audio-nya
         if (sfxPlayer != null && klipSuara != null)
         {
-            sfxPlayer.PlayOneShot(klipSuara); 
+            sfxPlayer.PlayOneShot(klipSuara);
         }
     }
     public void MainkanSFXDelay(AudioClip klipSuara, float waktuDelay)
@@ -157,11 +159,11 @@ public class ManagerInspect : MonoBehaviour
     {
         // 1. Nunggu dulu sesuai waktu yang abang minta
         yield return new WaitForSeconds(jeda);
-        
+
         // 2. Waktunya habis, jedar! Bunyikan suaranya
         sfxPlayer.PlayOneShot(klip);
     }
-    
+
     [Header("Data Usaha Klien")]
     public string[] listNamaUsaha = { "Maju Jaya", "Sejahtera Bersama", "Mundur Terus", "Berkah Abadi" }; // Bisa abang tambah sendiri
     private string currentNamaUsaha;
@@ -186,20 +188,18 @@ public class ManagerInspect : MonoBehaviour
         //GoodIMG.SetActive(true);
         //BadIMG.SetActive(true);
         //SecIMG.SetActive(true);
+        PetunjukAnim = PetunjukPanel.GetComponent<Animator>();
         AmplopAnim = Amplop.GetComponent<Animator>();
         AmplopCol = Amplop.GetComponent<Collider2D>();
         klienSpriteRenderer = karakterKlien.GetComponent<SpriteRenderer>();
         AmplopCol.enabled = false;
+        ptnjkmuncl = false;
 
         SetTombolAktif(false);
         UpdateHutang();
         StartCoroutine(SiklusKlienMasuk());
 
-        if (level == PilihLevel.level_1)
-        {
-            Time.timeScale = 0f;
-            PetunjukPanel.SetActive(true);
-        }
+
     }
     // FUNGSI JURUS PAMUNGKAS
     void LateUpdate()
@@ -247,7 +247,18 @@ public class ManagerInspect : MonoBehaviour
         sedangProsesAnimasi = false;
         SetTombolAktif(true);
         AmplopAnim.SetTrigger("taruh");
-        AmplopCol.enabled = true;
+        if (level == PilihLevel.level_1 && ptnjkmuncl == false)
+        {
+            yield return new WaitForSeconds(0.5f);
+            Time.timeScale = 0f;
+            PetunjukPanel.SetActive(true);
+            PetunjukAnim.SetTrigger("Pop");
+            ptnjkmuncl = true;
+        }
+        else
+        {
+            AmplopCol.enabled = true;
+        }
     }
 
     public void PanggilBerkasDariAmplop()
@@ -279,7 +290,7 @@ public class ManagerInspect : MonoBehaviour
         dokumenWajibLevelIni.Add(Files.TipeDokumen.KTP);
         dokumenWajibLevelIni.Add(Files.TipeDokumen.NPWP);
         dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU); // SKU naik ke atas biar wajib
-        
+
 
         // 3. Tentukan Jumlah Berkas yang Keluar
         int jumlahBerkasWajib = dokumenWajibLevelIni.Count;
@@ -332,7 +343,7 @@ public class ManagerInspect : MonoBehaviour
                 if (tipeSkenario != 0 && jumlahBerkasWajib == dokumenWajibLevelIni.Count)
                 {
                     if (i > 0 && !dataSudahDibuatSalah && Random.value > 0.4f) jadikanBerkasIniSalah = true;
-                    if (i == jumlahBerkasWajib - 1 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true; 
+                    if (i == jumlahBerkasWajib - 1 && !dataSudahDibuatSalah) jadikanBerkasIniSalah = true;
                 }
 
                 if (jadikanBerkasIniSalah)
@@ -420,7 +431,7 @@ public class ManagerInspect : MonoBehaviour
     }
     IEnumerator GerakLerp(GameObject objek, Vector3 start, Vector3 end)
     {
-        
+
         float t = 0;
         while (t < 1)
         {
@@ -550,9 +561,9 @@ public class ManagerInspect : MonoBehaviour
         Vector3 skalaKeluar = klienAktif.transform.localScale;
         skalaKeluar.x = -Mathf.Abs(skalaKeluar.x);
         klienAktif.transform.localScale = skalaKeluar;
-        
+
         kunciGambar = false;
-        
+
         // 3. Mulai Jalan Keluar
         klienanim.SetBool("walk", true);
 
@@ -665,7 +676,6 @@ public class ManagerInspect : MonoBehaviour
         }
         endingPanelParentAnim.SetTrigger("End");
     }
-
     private void GoodEnding()
     {
         ColorUtility.TryParseHtmlString("#00FF09", out Color warnahijau);
@@ -702,14 +712,12 @@ public class ManagerInspect : MonoBehaviour
         GoodIMG.SetActive(false);
         BadIMG.SetActive(false);
     }
-
     public void Pause()
     {
         PausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
     }
-
     public void Continue()
     {
         PausePanel.SetActive(false);
@@ -726,5 +734,6 @@ public class ManagerInspect : MonoBehaviour
     {
         PetunjukPanel.SetActive(false);
         Time.timeScale = 1f;
+        AmplopCol.enabled = true;
     }
 }
