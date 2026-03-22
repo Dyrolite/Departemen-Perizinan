@@ -265,10 +265,6 @@ public class ManagerInspect : MonoBehaviour
     {
         StartCoroutine(KeluarkanBerkasAnimasi());
     }
-
-    // =========================================================
-    // FUNGSI GENERATE BERKAS (DISESUAIKAN BERDASARKAN LEVEL)
-    // =========================================================
     IEnumerator KeluarkanBerkasAnimasi()
     {
         // 1. Tentukan Skenario Berdasarkan Level
@@ -279,7 +275,7 @@ public class ManagerInspect : MonoBehaviour
         }
         else
         {
-            tipeSkenario = Random.Range(0, 3);
+            tipeSkenario = Random.Range(0, 3); // 2 = Suap
         }
 
         isPenyuapan = (tipeSkenario == 2);
@@ -289,13 +285,13 @@ public class ManagerInspect : MonoBehaviour
         List<Files.TipeDokumen> dokumenWajibLevelIni = new List<Files.TipeDokumen>();
         dokumenWajibLevelIni.Add(Files.TipeDokumen.KTP);
         dokumenWajibLevelIni.Add(Files.TipeDokumen.NPWP);
-        dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU); // SKU naik ke atas biar wajib
-
+        dokumenWajibLevelIni.Add(Files.TipeDokumen.SKU);
 
         // 3. Tentukan Jumlah Berkas yang Keluar
         int jumlahBerkasWajib = dokumenWajibLevelIni.Count;
         if (tipeSkenario != 0)
         {
+            // Peluang klien lupa bawa 1 berkas
             if (Random.value > 0.5f) jumlahBerkasWajib -= 1;
         }
 
@@ -304,12 +300,11 @@ public class ManagerInspect : MonoBehaviour
         int totalBerkasDimunculkan = isPenyuapan ? jumlahBerkasWajib + 1 : jumlahBerkasWajib;
 
         // ==========================================================
-        // 4. PERSIAPAN DATA TEKS (INI YANG TADI KURANG BANG!)
+        // 4. PERSIAPAN DATA TEKS 
         // ==========================================================
         string namaAsliKlien = listOrangBenar[Random.Range(0, listOrangBenar.Length)];
         string alamatAsliKlien = listAlamat[Random.Range(0, listAlamat.Length)];
 
-        // KITA KOCOK NAMA USAHANYA DI SINI BIAR GAK KOSONG
         currentNamaUsaha = listNamaUsaha[Random.Range(0, listNamaUsaha.Length)];
         currentPrefixUsaha = (Random.value > 0.5f) ? "PT." : "CV.";
 
@@ -333,6 +328,8 @@ public class ManagerInspect : MonoBehaviour
             string prefixDiKertas = currentPrefixUsaha;
 
             GameObject prefabPilihan = null;
+
+            // Kita pastikan sprite palsu selalu null karena kamu tidak ingin memakainya
             Sprite spriteSalahPilihan = null;
 
             if (i < jumlahBerkasWajib)
@@ -340,6 +337,7 @@ public class ManagerInspect : MonoBehaviour
                 tipeYangDibuat = dokumenWajibLevelIni[i];
                 bool jadikanBerkasIniSalah = false;
 
+                // Memastikan minimal ada 1 berkas salah jika skenario memang meminta klien bermasalah
                 if (tipeSkenario != 0 && jumlahBerkasWajib == dokumenWajibLevelIni.Count)
                 {
                     if (i > 0 && !dataSudahDibuatSalah && Random.value > 0.4f) jadikanBerkasIniSalah = true;
@@ -349,25 +347,30 @@ public class ManagerInspect : MonoBehaviour
                 if (jadikanBerkasIniSalah)
                 {
                     dataSudahDibuatSalah = true;
+
                     if (tipeYangDibuat == Files.TipeDokumen.SKU)
                     {
-                        // ==========================================================
-                        // LOGIKA LEVEL 3: HILANGKAN TEKS PT/CV (INI JUGA BARU)
-                        // ==========================================================
-                        if (level == PilihLevel.level_3 && Random.value > 0.4f)
+                        // DIJAMIN SALAH SECARA TEKS (Pilih salah satu)
+                        if (Random.value > 0.5f)
                         {
-                            prefixDiKertas = ""; // Teks dikosongkan biar kliennya disalahkan!
+                            namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)]; // Nama Pemilik Beda
                         }
                         else
                         {
-                            if (Random.value > 0.5f) namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
-                            else spriteSalahPilihan = null;
+                            prefixDiKertas = ""; // Teks PT/CV KOSONG! (Pemain harus jeli)
                         }
                     }
                     else // Untuk KTP atau NPWP
                     {
-                        if (Random.value > 0.5f) namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)];
-                        else alamatDiKertas = listAlamat[Random.Range(0, listAlamat.Length)];
+                        // DIJAMIN SALAH SECARA TEKS (Pilih salah satu)
+                        if (Random.value > 0.5f)
+                        {
+                            namaDiKertas = listNamaSalah[Random.Range(0, listNamaSalah.Length)]; // Nama Beda
+                        }
+                        else
+                        {
+                            alamatDiKertas = listAlamat[Random.Range(0, listAlamat.Length)]; // Alamat Beda
+                        }
                     }
                 }
             }
@@ -384,11 +387,7 @@ public class ManagerInspect : MonoBehaviour
                 if (db.tipeDokumen == tipeYangDibuat)
                 {
                     prefabPilihan = db.prefabDokumen;
-
-                    if (dataSudahDibuatSalah && namaDiKertas == namaAsliKlien && tipeYangDibuat == Files.TipeDokumen.SKU && prefixDiKertas != "")
-                    {
-                        spriteSalahPilihan = db.gambarSalahAlternatif;
-                    }
+                    // HAPUS SISTEM PENGAMAN GAMBAR PALSU DI SINI
                     break;
                 }
             }
