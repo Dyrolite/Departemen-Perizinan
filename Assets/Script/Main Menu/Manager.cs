@@ -3,7 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    
+
+
     public void Play()
     {
         Data.hutang = -7500000;

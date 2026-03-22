@@ -114,6 +114,10 @@ public class ManagerInspect : MonoBehaviour
     public float kecepatanGerak = 5f;
     public int KlienPerLevel;
 
+
+    public GameObject pageVolume;
+
+
     private Animator AmplopAnim;
     private Collider2D AmplopCol;
     private GameObject objekUangSuap = null;
@@ -180,7 +184,7 @@ public class ManagerInspect : MonoBehaviour
         PetunjukPanel.SetActive(false);
         EndingMainmenu.SetActive(false);
         endingPanelParent.SetActive(false);
-
+        pageVolume.SetActive(false);
         //GoodEndingPanel.SetActive(true);
         //BadEndingPanel.SetActive(true);
         //SecEndingPanel.SetActive(true);
@@ -727,6 +731,11 @@ public class ManagerInspect : MonoBehaviour
 
     public void MainMenu()
     {
+
+        // 1. Suruh Dewa Audio ganti lagu santai!
+    if (AudioManager.instance != null) AudioManager.instance.PutarLaguMenu();
+
+    // 2. Baru pindah scene
         SceneManager.LoadScene("MainMenu");
         Time.timeScale = 1f;
     }
