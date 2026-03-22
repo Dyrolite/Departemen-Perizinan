@@ -138,30 +138,29 @@ public class ManagerInspect : MonoBehaviour
     public AudioClip sfxKlienMasuk; // Suara langkah kaki / pintu
     public AudioClip sfxApprove;    // Suara stempel HIJAU
     public AudioClip sfxReject;     // Suara stempel MERAH
+    public AudioClip sfxFlipPage;     // Suara amplop dibuka/tutup (opsional, bisa dipakai untuk memperkaya suasana)  
 
-    public void MainkanSFX(AudioClip klipSuara)
+    public void MainkanSFX(AudioClip klipSuara, float volume = 1f) 
     {
-        // Ngecek biar gak error kalau abang lupa masukin audio-nya
         if (sfxPlayer != null && klipSuara != null)
         {
-            sfxPlayer.PlayOneShot(klipSuara);
+            // PlayOneShot bisa nerima parameter kedua untuk ngecilin/ngerasin suara
+            sfxPlayer.PlayOneShot(klipSuara, volume); 
         }
     }
-    public void MainkanSFXDelay(AudioClip klipSuara, float waktuDelay)
+
+    public void MainkanSFXDelay(AudioClip klipSuara, float waktuDelay, float volume = 1f)
     {
-        // Panggil coroutine khusus buat nunggu
         if (sfxPlayer != null && klipSuara != null)
         {
-            StartCoroutine(ProsesDelaySFX(klipSuara, waktuDelay));
+            StartCoroutine(ProsesDelaySFX(klipSuara, waktuDelay, volume));
         }
     }
-    IEnumerator ProsesDelaySFX(AudioClip klip, float jeda)
+
+    IEnumerator ProsesDelaySFX(AudioClip klip, float jeda, float vol)
     {
-        // 1. Nunggu dulu sesuai waktu yang abang minta
         yield return new WaitForSeconds(jeda);
-
-        // 2. Waktunya habis, jedar! Bunyikan suaranya
-        sfxPlayer.PlayOneShot(klip);
+        sfxPlayer.PlayOneShot(klip, vol);
     }
 
     [Header("Data Usaha Klien")]
@@ -216,7 +215,7 @@ public class ManagerInspect : MonoBehaviour
         klienAktif = Instantiate(karakterKlien, titikSpawnKlien.position, Quaternion.identity);
         klienanim = klienAktif.GetComponent<Animator>();
         klienSpriteRenderer = klienAktif.GetComponent<SpriteRenderer>();
-        MainkanSFXDelay(sfxKlienMasuk, 0.5f);
+        MainkanSFXDelay(sfxKlienMasuk, 0.3f, 0.5f);
 
 
         // 2. Acak Gambarnya Sejak Awal (LateUpdate akan langsung menjaganya)
@@ -263,10 +262,12 @@ public class ManagerInspect : MonoBehaviour
 
     public void PanggilBerkasDariAmplop()
     {
+        
         StartCoroutine(KeluarkanBerkasAnimasi());
     }
     IEnumerator KeluarkanBerkasAnimasi()
     {
+        
         // 1. Tentukan Skenario Berdasarkan Level
         int tipeSkenario;
         if (level == PilihLevel.level_1)
@@ -548,7 +549,7 @@ public class ManagerInspect : MonoBehaviour
         sedangProsesAnimasi = true;
         SetTombolAktif(false);
 
-        MainkanSFXDelay(sfxKlienMasuk, 0.5f);
+        MainkanSFXDelay(sfxKlienMasuk, 0.6f, 0.5f);
 
         // 1. Trigger animasi Menghilang (putih ke hitam)
         klienanim.SetBool("PopChar", true);

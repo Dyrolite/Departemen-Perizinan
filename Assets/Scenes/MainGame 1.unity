@@ -2483,6 +2483,7 @@ MonoBehaviour:
   sfxKlienMasuk: {fileID: 8300000, guid: 3f9ed8d4815a02345bc9dfabad173536, type: 3}
   sfxApprove: {fileID: 8300000, guid: 4646679fb003a5d4faec4539f3d42d00, type: 3}
   sfxReject: {fileID: 8300000, guid: af3f1822e847d5048a5e654d5c398eef, type: 3}
+  sfxFlipPage: {fileID: 8300000, guid: c381b8915caf6774fb016770d926296a, type: 3}
   listNamaUsaha:
   - Maju Jaya
   - Sejahtera Bersama
