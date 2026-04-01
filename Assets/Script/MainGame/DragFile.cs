@@ -29,12 +29,12 @@ public class DragFile : MonoBehaviour
     private Camera mainCamera;
 
     private SpriteRenderer mySpriteRenderer;
-    // Variabel static ini dibagikan ke SEMUA script DragAndAbsorb. 
-    // Nilainya akan terus naik setiap kali ada objek baru disentuh.
+    private Canvas myCanvas;
     private static int globalSortingOrder = 10;
 
     void Start()
     {
+        myCanvas = GetComponentInChildren<Canvas>();
         originalScale = transform.localScale;
         myCollider = GetComponent<Collider2D>();
         mainCamera = Camera.main;
@@ -43,8 +43,24 @@ public class DragFile : MonoBehaviour
         {
             mySpriteRenderer.sortingOrder = ++globalSortingOrder;
         }
+        UpdateSortingTumpukan();
     }
+    private void UpdateSortingTumpukan()
+    {
+        globalSortingOrder += 2; // Kita naikkan 2 angka sekaligus
 
+        // 1. Majukan kertasnya
+        if (mySpriteRenderer != null)
+        {
+            mySpriteRenderer.sortingOrder = globalSortingOrder;
+        }
+
+        // 2. Majukan Canvas/Teksnya agar selalu ADA DI ATAS kertas (+1)
+        if (myCanvas != null)
+        {
+            myCanvas.sortingOrder = globalSortingOrder + 1;
+        }
+    }
     private void OnEnable()
     {
         clickAction.Enable();
@@ -99,7 +115,7 @@ public class DragFile : MonoBehaviour
             // Bawa objek ini ke tumpukan paling depan!
             if (mySpriteRenderer != null)
             {
-                mySpriteRenderer.sortingOrder = ++globalSortingOrder;
+                UpdateSortingTumpukan();
             }
         }
     }
@@ -209,7 +225,7 @@ public class DragFile : MonoBehaviour
         if (!isStored) return;
         if (mySpriteRenderer != null)
         {
-            mySpriteRenderer.sortingOrder = ++globalSortingOrder;
+            UpdateSortingTumpukan();
         }
         StartCoroutine(KeluarkanRoutine());
     }

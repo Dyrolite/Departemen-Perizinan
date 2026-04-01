@@ -47,6 +47,7 @@ public class SwitchCam : MonoBehaviour
         if (hit.collider != null && hit.collider.gameObject == this.gameObject)
         {
             SwitchCameraPriority();
+            managerInspect.IsKamreaAtas = false;
         }
     }
 
@@ -61,15 +62,26 @@ public class SwitchCam : MonoBehaviour
         if (managerInspect.AmplopKebuka == false)
         {
             StartCoroutine(WaitSwitch());
-            managerInspect.AmplopKebuka = true;
+            if (managerInspect.IsGennerateBaru == true)
+            {
+                managerInspect.AmplopKebuka = true;
+
+            }
         }
     }
     IEnumerator WaitSwitch()
     {
         yield return new WaitForSeconds(0.5f);
-        anim.SetTrigger("TriggOpen");
+        if (managerInspect.IsGennerateBaru == true)
+        {
+            anim.SetTrigger("TriggOpen");
+        }
 
         yield return new WaitForSeconds(0.5f);
-        managerInspect.PanggilBerkasDariAmplop();
+        if (managerInspect.IsGennerateBaru == true)
+        {
+            managerInspect.PanggilBerkasDariAmplop();
+            managerInspect.IsGennerateBaru = false;
+        }
     }
 }

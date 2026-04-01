@@ -1,63 +1,109 @@
-// using UnityEngine;
-
-// public class Files : MonoBehaviour
-// {
-//     public enum TipeDokumen { SuratPengantar, KTP, IzinUsaha, LaporanKeuangan }
-    
-//     public TipeDokumen tipe;
-//     public bool isAsli = true;
-
-//     // Opsional: Untuk mengubah visual jika dokumen palsu
-//     public SpriteRenderer spriteRenderer;
-//     public Color warnaPalsu = Color.red; 
-
-//     public void SetupBerkas(TipeDokumen tipeBerkas, bool asli)
-//     {
-//         tipe = tipeBerkas;
-//         isAsli = asli;
-
-//         // Visual feedback sederhana untuk prototype: 
-//         // Dokumen palsu diberi warna kemerahan (nanti bisa diganti dengan teks/sprite beda)
-//         if (!isAsli && spriteRenderer != null)
-//         {
-//             spriteRenderer.color = warnaPalsu;
-//         }
-//     }
-// }
-
-
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+
+// 
 
 public class Files : MonoBehaviour
 {
-    // Sesuaikan dengan daftar berkasmu
+
+
     public enum TipeDokumen { KTP, NPWP, SKU, AmplopUang }
     
-    // Status benar atau salah
-    public enum StatusDokumen { Benar, Salah1, Salah2 }
-
-    [Header("Informasi Berkas Saat Ini")]
+    
+    [Header("Status Dokumen Saat Ini")]
     public TipeDokumen tipe;
-    public StatusDokumen status;
+    public string namaDiBerkas;
+    public string alamatDiBerkas;
 
-    private SpriteRenderer spriteRenderer;
+    [Header("Teks Pelengkap (Boleh Kosong)")]
+    public TextMeshProUGUI textTTL;
+    public TextMeshProUGUI textJenisKelamin;
+    public TextMeshProUGUI textAgama;
+    public TextMeshProUGUI textStatus;
+    public TextMeshProUGUI textPekerjaan;
+
+    [Header("Referensi Komponen (Isi di Prefab)")]
+    public SpriteRenderer spriteRenderer;
+    public TextMeshProUGUI textNama; 
+    public TextMeshProUGUI textAlamat;
+    public TextMeshProUGUI textKotaAtas;
+    public TextMeshProUGUI textKotaBawahFoto;
+
+    public TextMeshProUGUI textNamaUsaha;
+    public TextMeshProUGUI textPrefixPTCV; 
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Fungsi ini akan dipanggil oleh Manager untuk mengatur tipe, status, dan gambarnya
-    public void SetupBerkas(TipeDokumen tipeBerkas, StatusDokumen statusBerkas, Sprite gambarBerkas)
+   public void SetupBerkasDinamis(TipeDokumen tipeBerkas, Sprite gambarDipilih, string namaTeks, string alamatTeks, string ttl, string jk, string agama, string status, string kerja, string namaUsaha, string prefixUsaha)
     {
         tipe = tipeBerkas;
-        status = statusBerkas;
+        namaDiBerkas = namaTeks;
+        alamatDiBerkas = alamatTeks;
 
-        // Ganti gambar visualnya sesuai dengan gambar yang dikirim dari Manager
-        if (spriteRenderer != null && gambarBerkas != null)
+        if (textKotaAtas && textKotaBawahFoto != null) 
         {
-            spriteRenderer.sprite = gambarBerkas;
-            spriteRenderer.color = Color.white; // Pastikan warnanya normal
+            textKotaAtas.gameObject.SetActive(true);
+            textKotaAtas.text = alamatDiBerkas.ToUpper();
+
+            textKotaBawahFoto.gameObject.SetActive(true);
+            textKotaBawahFoto.text = alamatDiBerkas.ToUpper(); 
+        }
+
+        // Tampilkan kota di Bawah Foto (Otomatis huruf besar semua)
+        // if (textKotaBawahFoto != null) 
+        // {
+        //     textKotaBawahFoto.gameObject.SetActive(true);
+        //     textKotaBawahFoto.text = alamatDiBerkas.ToUpper();
+        // }
+
+        // Pasang gambarnya (Template KTP/NPWP biasa, atau SKU dengan ttd asli/palsu)
+        if (spriteRenderer != null && gambarDipilih != null)
+        {
+            spriteRenderer.sprite = gambarDipilih;
+        }
+
+        // Reset tampilan teks
+        if (textNama != null) textNama.gameObject.SetActive(false);
+        if (textAlamat != null) textAlamat.gameObject.SetActive(false);
+
+        // Atur teks khusus dokumen resmi (Bukan Amplop)
+        if (tipe != TipeDokumen.AmplopUang)
+        {
+            if (textNama != null)
+            {
+                textNama.gameObject.SetActive(true);
+                textNama.text = namaDiBerkas;
+            }
+
+            if (textAlamat != null )
+            {
+                textAlamat.gameObject.SetActive(true);
+                textAlamat.text = alamatDiBerkas;
+            }
+        }
+
+
+        if (textTTL != null) textTTL.text = ttl;
+        if (textJenisKelamin != null) textJenisKelamin.text = jk;
+        if (textAgama != null) textAgama.text = agama;
+        if (textStatus != null) textStatus.text = status;
+        if (textPekerjaan != null) textPekerjaan.text = kerja;
+
+        if (textNamaUsaha != null) 
+        {
+            textNamaUsaha.gameObject.SetActive(true);
+            textNamaUsaha.text = namaUsaha; 
+        }
+
+        if (textPrefixPTCV != null) 
+        {
+            textPrefixPTCV.gameObject.SetActive(true);
+            textPrefixPTCV.text = prefixUsaha; 
         }
     }
+
 }

@@ -20,6 +20,7 @@ public class AmplopBuka : MonoBehaviour
 
     private void OnEnable()
     {
+        
         clickAction.Enable();
         pointerPositionAction.Enable();
         clickAction.performed += OnClick;
